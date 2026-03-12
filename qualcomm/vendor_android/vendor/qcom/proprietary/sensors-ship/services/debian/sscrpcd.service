@@ -1,0 +1,24 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# All rights reserved.
+# Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+[Unit]
+Description=sscrpcd Service
+SourcePath=/usr/bin/sscrpcd
+
+[Service]
+User=fastrpc
+Group=fastrpc
+Restart=always
+
+ExecStartPre=+/bin/bash -c 'SOC=$(cat /sys/devices/soc0/soc_id); \
+case "$SOC" in \
+  "497"|"498"|"475"|"515"|"575") ;; \
+  *) echo "Sensors not supported in this platform"; exit 1 ;; \
+esac'
+ExecStartPre=+/bin/chmod -R 755 /etc/sensors
+ExecStartPre=+/bin/chown -R fastrpc:fastrpc /etc/sensors
+ExecStart=/usr/bin/sscrpcd sensorspd
+
+[Install]
+WantedBy=multi-user.target

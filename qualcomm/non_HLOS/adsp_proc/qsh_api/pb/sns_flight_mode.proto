@@ -1,0 +1,52 @@
+// @file sns_flight_mode.proto
+//
+// @brief Defines message types for the Flight Mode Detection (FMD) Sensor.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All rights reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details 
+// A Flight Mode Detection sensor for detecting current flight mode state.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "flight_mode"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_flight_mode.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the sensor
+//
+// ## Publishing Stream Events:
+// - The sns_fmd_event message is used to publish updated state
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+
+
+// @brief Message IDs for Flight Mode Detection Sensor
+enum sns_flight_mode_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief The sns_fmd_event message is used to publish updated state.
+  SNS_FLIGHT_MODE_MSGID_SNS_FMD_EVENT = 801;
+}
+
+// @brief Flight mode states
+enum sns_fmd_state
+{
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_FMD_UNKNOWN = 0;
+  SNS_FMD_NOT_IN_FLIGHT = 1;
+  SNS_FMD_IN_FLIGHT = 2;
+  SNS_FMD_LANDING = 3;
+}
+
+// @brief Flight mode message
+message sns_fmd_event
+{
+  required sns_fmd_state state = 1;
+}

@@ -1,0 +1,15 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# All rights reserved.
+# Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+on early-boot
+
+    write /sys/class/glinkpkt/glinkpkt_wm_qsh_2_0/open_timeout 10
+    write /sys/class/glinkpkt/glinkpkt_wm_qsh_2_1/open_timeout 10
+    write /sys/class/glinkpkt/glinkpkt_wm_qsh_2_2/open_timeout 10
+    write /sys/class/glinkpkt/glinkpkt_wm_qsh_2_3/open_timeout 10
+    write /sys/class/glinkpkt/glinkpkt_wm_qsh_2_4/open_timeout 10
+    write /sys/class/glinkpkt/glinkpkt_wm_qsh_2_5/open_timeout 10
+    write /sys/class/glinkpkt/glinkpkt_wm_qsh_2_6/open_timeout 10
+    write /sys/class/glinkpkt/glinkpkt_wm_qsh_2_7/open_timeout 10
+    write /sys/class/glinkpkt/glinkpkt_wm_qsh_2_8/open_timeout 10

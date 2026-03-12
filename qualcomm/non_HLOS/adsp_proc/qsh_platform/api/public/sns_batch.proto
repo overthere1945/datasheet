@@ -1,0 +1,87 @@
+// @file sns_batch.proto
+//
+// @brief Defines api for the Batch Sensor.
+// 
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All Rights Reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details Batch Sensor will batch events coming from requested sensor
+// in power efficient memory. 
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "batch"
+// 2. SNS_STD_SENSOR_ATTRID_API: "sns_batch.proto"
+// 3. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+//
+// ## Processing Stream Requests:
+// 1. SNS_BATCH_MSGID_SNS_BATCH_CONFIG is used to enable the sensor.
+//    Batch Sensor will relay all requests besides 
+//    SNS_BATCH_MSGID_SNS_BATCH_CONFIG to the underlying sensor. Any requests 
+//    received before a valid SNS_BATCH_MSGID_SNS_BATCH_CONFIG will be 
+//    rejected.
+// 2. SNS_STD_MSGID_SNS_STD_FLUSH_REQ supported by the batch sensor as defined 
+//    in sns_std.proto. It relays the flush request to the underlying sensor 
+//    and after flushing is complete reports a 
+//    SNS_STD_MSGID_SNS_STD_FLUSH_EVENT.
+// 3. The request_payload is the same as the payload in sns_std_request 
+//    destined for the suid and the msg_id must correspond to this request.
+//    The Batch sensor composes a sns_std_request containing all the settings 
+//    provided to it and places the request_payload within it to send it to the
+//    underlying  suid.
+//
+// ## Publishing Stream Events:
+// 1. Batch Sensor only batches events with message ids specified in 
+//    batch_msg_ids. Upon receiving an event with any other message id, it 
+//    will flush all batched data to the client.
+// 2. Batch_period is used to set the minimum time between consecutive events
+//    sent to the client, meaning an event shouldn't be generated until
+//    batch_period usec has elapsed since the last event, even if new data is
+//    received from the sensor. Events may be sent faster than specified
+//    batch_period in certain scenarios, for e.g. receiving non batch_msg_id
+//    events or to avoid dropping messages if data is received at high 
+//    frequency.
+//    The Batch Sensor only supports the required parameters in the batch_spec. 
+//    Any batch requests with batch period less than the minimum supported 
+//    batch period would be converted to streaming requests. 
+// 3. Associated message ID : SNS_BATCH_MSGID_SNS_BATCH_COMPLETE_EVENT
+//    Batch sensor will append "sns_batch_complete" complete event at the end 
+//    of every batch.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std.proto";
+import "sns_std_sensor.proto";
+
+// @brief Batch sensor message ID.
+enum sns_batch_msgid
+{
+  option (nanopb_enumopt).long_names = false;
+  
+  //@brief This field is used to enable the sensor.
+  SNS_BATCH_MSGID_SNS_BATCH_CONFIG = 121;
+
+  // @brief Batch sensor will append "sns_batch_complete" complete event at the
+  //  end of every batch.
+  SNS_BATCH_MSGID_SNS_BATCH_COMPLETE_EVENT = 258;
+}
+
+// @brief Batch Sensor will batch events with specified batch_msg_ids coming
+// from requested suid for the batch_period specified in sns_std_request.
+message sns_batch_config
+{
+  // @brief UID of the Sensor to be batched.
+  required sns_std_suid suid = 1;
+
+  // @brief Msg Ids of the underlying sensor to be batched.
+  repeated fixed32 batch_msg_ids = 2 [(nanopb).max_count = 10];
+}
+
+// @brief SNS batch complete event
+// Associated message ID : SNS_BATCH_MSGID_SNS_BATCH_COMPLETE_EVENT
+// Batch sensor will append this complete event at the end of every batch.
+message sns_batch_complete
+{
+ //empty message 
+}

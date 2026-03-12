@@ -1,0 +1,46 @@
+// @file sns_presence.proto
+//
+// @brief Defines API for the Presence Sensor.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All rights reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details Presence detector is used to detect human presence.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "presence_detect"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_presence.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the sensor
+//
+// ## Publishing Stream Events:
+// - The sns_presence_event message is used to publish presence events
+
+syntax = "proto2";
+import "nanopb.proto";
+
+// @brief Message IDs for Presence Sensor
+enum sns_presence_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_PRESENCE_MSGID_SNS_PRESENCE_EVENT = 928;
+}
+
+enum sns_presence_event_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_PRESENCE_UNKNOWN          = 0;
+  SNS_PRESENCE_DETECTED         = 1;
+  SNS_PRESENCE_NOT_DETECTED     = 2;
+}
+
+// @brief Events types from Presence sensor
+message sns_presence_event
+{
+  required sns_presence_event_type state = 1 [default = SNS_PRESENCE_UNKNOWN];
+}

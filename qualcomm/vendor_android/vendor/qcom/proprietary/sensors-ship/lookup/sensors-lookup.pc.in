@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: sensors-lookup
+Description: sensors-lookup library
+Version: @LT_VERSION@
+Libs: -L${libdir} -lsuidlookup
+Cflags: -I${includedir}/

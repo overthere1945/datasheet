@@ -1,0 +1,37 @@
+// @file sns_step_detect.proto
+//
+// @brief Defines message types for the Step Detect Sensor.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All rights reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details The Step Detect Sensor detects steps taken by the user
+// The Step Detect event is generated when the user takes a step.
+// All clients to Step Detect get the same step detect event.
+// The timestamp of the event indicates the time of the latest detected step.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "step_detect"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_step_detect.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the sensor
+//
+// ## Publishing Stream Events:
+// - An event with SNS_STEP_DETECT_MSGID_SNS_STEP_DETECT_EVENT as the message id
+//   is used to publish a step detect event
+// - Step detect sensor does not publish configuration events
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+
+// @brief Message IDs for Step Detect Sensor
+enum sns_step_detect_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_STEP_DETECT_MSGID_SNS_STEP_DETECT_EVENT = 1029;
+}

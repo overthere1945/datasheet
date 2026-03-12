@@ -1,0 +1,168 @@
+{
+  "config": {
+    "hw_platform": ["WDP","WRD","IDP","RCM"],
+    "platform_family": ["164"]
+  },
+  "opt3001_als_0": {
+    "owner": "sns_opt3001_als",
+    ".als": {
+      "owner": "sns_opt3001_als",
+      ".config": {
+        "owner": "sns_opt3001_als",
+        "is_dri": {
+          "type": "int",
+          "ver": "0",
+          "data": "1"
+        },
+        "hw_id": {
+          "type": "int",
+          "ver": "0",
+          "data": "0"
+        },
+        "res_idx": {
+          "type": "int",
+          "ver": "0",
+          "data": "0"
+        },
+        "sync_stream": {
+          "type": "int",
+          "ver": "0",
+          "data": "0"
+        }
+      }
+    }
+  },
+  "opt3001_als_0_platform": {
+    "owner": "sns_opt3001_als",
+    ".config": {
+      "owner": "sns_opt3001_als",
+      "bus_type": {
+        "type": "int",
+        "ver": "0",
+        "data": "0"
+      },
+      "bus_instance": {
+        "type": "int",
+        "ver": "0",
+        "data": "8"
+      },
+      "slave_config": {
+        "type": "int",
+        "ver": "0",
+        "data": "69"
+      },
+      "max_bus_speed_khz": {
+        "type": "int",
+        "ver": "0",
+        "data": "1000"
+      },
+      "min_bus_speed_khz": {
+        "type": "int",
+        "ver": "0",
+        "data": "400"
+      },
+      "reg_addr_type": {
+        "type": "int",
+        "ver": "0",
+        "data": "0"
+      },
+      "dri_irq_num": {
+        "type": "int",
+        "ver": "0",
+        "data": "25"
+      },
+      "irq_pull_type": {
+        "type": "int",
+        "ver": "0",
+        "data": "3"
+      },
+      "irq_is_chip_pin": {
+        "type": "int",
+        "ver": "0",
+        "data": "1"
+      },
+      "irq_drive_strength": {
+        "type": "int",
+        "ver": "0",
+        "data": "0"
+      },
+      "irq_trigger_type": {
+        "type": "int",
+        "ver": "0",
+        "data": "1"
+      },
+      "num_rail": {
+        "type": "int",
+        "ver": "0",
+        "data": "1"
+      },
+      "rail_on_state": {
+        "type": "int",
+        "ver": "0",
+        "data": "1"
+      },
+      "vddio_rail": {
+        "type": "str",
+        "ver": "0",
+        "data": "/regulator/l13a"
+      },
+      "rigid_body_type": {
+        "type": "int",
+        "ver": "0",
+        "data": "0"
+      }
+    },
+    ".als": {
+      "owner": "sns_opt3001_als",
+      ".fac_cal": {
+        "owner": "sns_opt3001_als",
+        "scale": {
+          "type": "flt",
+          "ver": "0",
+          "data": "1.0"
+        },
+        "bias": {
+          "type": "flt",
+          "ver": "0",
+          "data": "0.0"
+        }
+      },
+      ".fac_test": {
+        "owner": "sns_opt3001_als",
+        "target_lux": {
+          "type": "flt",
+          "ver": "6",
+          "data": "300.0"
+        },
+        "gain_range_max": {
+          "type": "flt",
+          "ver": "0",
+          "data": "1.5"
+        },
+        "gain_range_min": {
+          "type": "flt",
+          "ver": "0",
+          "data": "0.5"
+        },
+        "correction_factor": {
+          "type": "flt",
+          "ver": "0",
+          "data": "1.0"
+        },
+        "sample_size": {
+          "type": "int",
+          "ver": "0",
+          "data": "1"
+        }
+      }
+    },
+    ".irq":{
+      "owner": "sns_opt3001_als",
+      "sensitivity": {
+        "type": "int",
+        "ver": "0",
+        "data": "10"
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+// @file sns_ccd_binary_input.proto
+//
+// @brief Defines message types for sensors implementing the
+// CCD Binary Input Interface.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All Rights Reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details This proto is for proxy sensors that want to send binary data 
+// events to combined detector block. 
+// 
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "ccd_binary_input"
+// 2. SNS_STD_SENSOR_ATTRID_API: "sns_ccd_binary_input.proto"
+// 3. SNS_STD_SENSOR_ATTRID_STREAM: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+//
+// ## Processing Stream Requests:
+// 1. SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the 
+//    sensor. Only CCD sensor can send requests to CCD Binary input sensor(s).
+// 
+// ## Publishing Stream Events:
+// A proxy sensor will receive data events from a source sensor
+// and map the data to SNS_CCD_BINARY_DATA_LOW or SNS_CCD_BINARY_DATA_HIGH.
+// A sns_ccd_binary_data_event will be sent to clients. 
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+
+
+
+//@brief CCD binary input Message IDs
+enum sns_ccd_binary_input_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Binary output event from proxy sensor to CCD.
+  SNS_CCD_BINARY_INPUT_MSGID_SNS_CCD_BINARY_INPUT_DATA_EVENT = 947;
+}
+
+enum sns_ccd_binary_data_enum
+{
+  option (nanopb_enumopt).long_names = false;
+  SNS_CCD_BINARY_DATA_UNINITIALIZED = 0;
+  SNS_CCD_BINARY_DATA_LOW = 1;
+  SNS_CCD_BINARY_DATA_HIGH = 2;
+}
+
+message sns_ccd_binary_input_data_event
+{
+  required sns_ccd_binary_data_enum state = 1;
+}
+

@@ -1,0 +1,63 @@
+// @file sns_resampler.proto
+//
+// @brief Defines standard message types for the Resampler.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All Rights Reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details Generates resampled events by applying the resampler configuration
+// to the input sensor data.
+// 
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "resampler"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_STREAMING
+//
+// ## Processing Stream Requests:
+// 1. SNS_RESAMPLER_MSGID_SNS_RESAMPLER_CONFIG: Used to either request for a
+// new configuration of the resampler Sensor or alter an already existing 
+// configuration. Only requests with SUIDs of Sensors configured through
+// sns_resampler.xml will be serviced. All other requests will be rejected with
+// an error event (SNS_STD_ERROR_NOT_SUPPORTED)
+//
+// ## Publishing Stream Events:
+// 1. Resampler uses sns_std_sensor_event for its output event.
+// 2. Resampler will resample all of the sns_std_sensor_events.
+// 3. Resampler also forwards any other event from underlying sensors 
+// (like physical config events, etc).
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std.proto";
+import "sns_std_sensor.proto";
+import "sns_std_event_gated_sensor.proto";
+
+
+enum sns_resampler_msgid
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Configuration message to engage resampler.
+  SNS_RESAMPLER_MSGID_SNS_RESAMPLER_CONFIG = 512;
+}
+
+
+// @brief Configuration Message for resampler.
+message sns_resampler_config
+{
+  // @brief UID of the Sensor to be resampled.
+  required sns_std_suid sensor_uid = 1;
+
+  // @brief The requested resampled rate in Hz.
+  required float resampled_rate = 2;
+
+  // @brief The requested rate type as defined in sns_resampler_rate.
+  required sns_resampler_rate rate_type = 3;
+
+  // @brief Set to true to enable filtering, else false.
+  required bool filter = 4;
+
+  // @brief Set to true if sensor to be resampled is event gated.
+  optional bool event_gated = 5;
+}

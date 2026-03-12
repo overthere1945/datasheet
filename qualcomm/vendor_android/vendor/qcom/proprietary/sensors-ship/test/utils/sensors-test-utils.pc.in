@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: sensors-test-utils
+Description: sensors-test-utils library
+Version: @LT_VERSION@
+Libs: -L${libdir} -lSensorTest
+Cflags: -I${includedir}/test/utils/

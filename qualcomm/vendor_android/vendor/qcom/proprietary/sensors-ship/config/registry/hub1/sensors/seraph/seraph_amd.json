@@ -1,0 +1,154 @@
+{
+  "config": {
+    "hw_platform": ["RCM","CDPS","GDP","IDP"],
+    "platform_family": ["163"]
+  },
+  "sns_amd_dep_config": {
+    "owner": "sns_amd",
+    ".sensor_0": {
+       "owner": "sns_amd",
+       ".accel": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "0" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "0" }
+            }
+       },
+       ".motion_detect": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "0" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "0" }
+            }
+       }
+    },
+   ".sensor_1": {
+       "owner": "sns_amd",
+       ".accel": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "1" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "1" }
+            }
+       },
+       ".motion_detect": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "1" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "1" }
+            }
+       }
+    },
+    ".sensor_2": {
+       "owner": "sns_amd",
+       ".accel": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "2" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "2" }
+            }
+       },
+       ".motion_detect": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "2" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "2" }
+            }
+       }
+    },
+    ".sensor_3": {
+       "owner": "sns_amd",
+       ".accel": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "3" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "2" }
+            }
+       },
+       ".motion_detect": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "3" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "2" }
+            }
+       }
+    },
+    ".sensor_4": {
+       "owner": "sns_amd",
+       ".accel": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "4" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "2" }
+            }
+       },
+       ".motion_detect": {
+         "owner": "sns_amd",
+            ".attr_0": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "18" },
+                "val": { "type": "int", "ver": "0", "data": "4" }
+            },
+            ".attr_1": {
+                "owner": "sns_amd",
+                "id": { "type": "int", "ver": "0", "data": "19" },
+                "val": { "type": "int", "ver": "0", "data": "2" }
+            }
+       }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+soong_config_module_type {
+    name: "sscrpcd_cc_defaults",
+    module_type: "cc_defaults",
+    config_namespace: "sscrpcd_config",
+    bool_variables: [
+        "isFastRPCDynamicPDSupported",
+    ],
+    properties: ["cflags"],
+}
+sscrpcd_cc_defaults {
+    name: "sscrpcd_defaults",
+    soong_config_variables: {
+        isFastRPCDynamicPDSupported: {
+            cflags: ["-DSNS_FRPC_DYNAMIC_PD_SUPPORTED"],
+        },
+    },
+}
+cc_binary {
+    name: "sscrpcd",
+    srcs: [
+        "src/sscrpcd.cpp",
+    ],
+    defaults: ["sscrpcd_defaults"],
+    shared_libs: [
+        "liblog",
+        "libdl",
+        "libcutils",
+        "libutils",
+    ],
+    header_libs: [
+        "vendor_common_inc",
+        "libfastrpc_vendor_headers",
+    ],
+    init_rc: ["vendor.sensors.sscrpcd.rc"],
+    proprietary: true,
+    owner: "qti",
+}
+

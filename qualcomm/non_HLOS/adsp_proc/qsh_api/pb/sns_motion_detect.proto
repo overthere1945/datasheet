@@ -1,0 +1,87 @@
+// @file sns_motion_detect.proto
+//
+// @brief Defines standard message types for a Motion Detect Sensors.
+//
+// @copyright 
+// Copyright (c) 2017-2018, 2023-2024 Qualcomm Technologies, Inc.
+// All Rights Reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details All physical Sensor drivers that support Motion Detect Sensor are
+// required to support the event messages as defined in this file.
+//
+// Notes:
+// A "source sensor" is an associated Sensor which supports gating based on
+// motion detection. For example, many accel sensors support motion gating.
+//
+// ## Attribute Requirements:
+// The Motion Detect Sensor publishes:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE attribute value as "motion_detect".
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE as SNS_STD_SENSOR_STREAM_TYPE_SINGLE_OUTPUT.
+// 3. The following attributes shall be the same as the source sensor:
+//      SNS_STD_SENSOR_ATTRID_VENDOR
+//      SNS_STD_SENSOR_ATTRID_HW_ID
+//      SNS_STD_SENSOR_ATTRID_RIGID_BODY
+// 4. See sns_std_sensor.proto for other attributes.
+//
+// ## Processing Stream Requests:
+// 1. A message with ID SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is an
+//    enable request to the motion_detect Sensor.
+// 2. A client deletes the data stream with motion_detect Sensor to disable its
+//    original enable request.
+//
+// ## Publishing Stream Events:
+// 1. The Motion Detect Sensor publishes an event with msgid
+//    SNS_MOTION_DETECT_MSGID_SNS_MOTION_DETECT_EVENT when the Motion Detect
+//    Sensor changes state, or when another on-change config request is
+//    received.
+// 2. The SNS_MOTION_DETECT_EVENT_TYPE_* event types are used as follows:
+//   a. DISABLED is used when motion detect is disabled. This may be due to
+//      the Source Sensor having concurrent non-gated requests.
+//   b. ENABLED is used when all Source Sensor requests are enabled with the
+//      SNS_STD_EVENT_GATED_SENSOR_MSGID_SNS_STD_SENSOR_CONFIG msgid. The
+//      Source Sensor sampling is paused, and the motion detect interrupt is armed.
+//   c. FIRED is used to indicate the motion detect interrupt has fired, and
+//      all SNS_STD_EVENT_GATED_SENSOR_MSGID_SNS_STD_SENSOR_CONFIG Source Sensor
+//      requests have been changed to SNS_STD_SENSOR_MSGID_SNS_STD_SENSOR_CONFIG
+//      requests.
+//      After sending a FIRED event, the Motion Detect Sensor will not
+//      re-arm the motion detect interrupt (and will not send more events)
+//      until another SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is
+//      received.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+import "sns_physical_sensor_test.proto";
+
+
+// @brief Message IDs for motion_detect Sensor
+enum sns_motion_detect_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief An event indicating the current status of the motion Sensor
+  // Message: sns_motion_detect_event
+  SNS_MOTION_DETECT_MSGID_SNS_MOTION_DETECT_EVENT  = 771;
+}
+
+// @brief Motion Detect Event Type
+enum sns_motion_detect_event_type {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Motion detect is disabled due to concurrent non-gated clients
+  SNS_MOTION_DETECT_EVENT_TYPE_DISABLED = 0;
+
+  // @brief Motion detect interrupt is enabled, and all clients are gated.
+  SNS_MOTION_DETECT_EVENT_TYPE_ENABLED  = 1;
+
+  // @brief Motion detect interrupt has fired
+  SNS_MOTION_DETECT_EVENT_TYPE_FIRED    = 2;
+}
+
+// @brief Event message from the Motion Detect Sensor
+message sns_motion_detect_event
+{
+  required sns_motion_detect_event_type motion_detect_event_type = 1 [default = SNS_MOTION_DETECT_EVENT_TYPE_DISABLED];
+}
+

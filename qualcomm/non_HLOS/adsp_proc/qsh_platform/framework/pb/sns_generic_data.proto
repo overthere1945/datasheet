@@ -1,0 +1,20 @@
+// @file sns_generic_data.proto
+//
+// @brief Defines generic data types to transport opaque payload
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All Rights Reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details Definitions of generic data types for transporting an opaque
+// payload.
+
+syntax = "proto2";
+import "nanopb.proto";
+
+// @brief This message defines the fields used for generic data
+message sns_generic_data
+{
+  required bytes payload = 1;
+}

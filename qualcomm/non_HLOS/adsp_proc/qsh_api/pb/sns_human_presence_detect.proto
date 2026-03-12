@@ -1,0 +1,56 @@
+// @file sns_human_presence_detect.proto
+//
+// @brief Defines message types for the Human Presence Detect (HPD) Sensor.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All rights reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details Human Presence Detect is a Fusion Sensor that detects and updates 
+// the state of Human Presence.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "human_presence_detect"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_human_presence_detect.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the sensor
+//
+// ## Publishing Stream Events:
+// - The SNS_PRESENCE_MSGID_SNS_PRESENCE_EVENT Reports Human Presence from 
+//   HPD sensor to Client
+//   Event Types associated with SNS_PRESENCE_MSGID_SNS_PRESENCE_EVENT:
+// - SNS_PRESENCE_UNKNOWN - Event type indicates unknown state of detection due 
+//   to insufficient information
+// - SNS_PRESENCE_DETECTED - Event type indicates human presence is detected
+// - SNS_PRESENCE_NOT_DETECTED - Event type indicates human presence is not 
+//   detected
+
+
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_presence.proto";
+
+// @brief Message IDs for Human Presence Detect Sensor
+enum sns_human_presence_detect_msgid 
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief To enable the Human Presence Detect sensor
+  SNS_HUMAN_PRESENCE_DETECT_MSGID_SNS_HUMAN_PRESENCE_DETECT_CONFIG = 512;
+}
+
+message sns_human_presence_detect_config
+{ 
+  // @brief  
+  // Distance Threshold in meters.
+  // If measured distance <= distance_threshold, event type SNS_PRESENCE_DETECTED reported. 
+  // Otherwise, Sensor reports event type SNS_PRESENCE_NOT_DETECTED.
+  // Distance threshold support not guaranteed by HPD sensor.
+  // If distance based detection is not available, sensor reports an error SNS_STD_ERROR_NOT_SUPPORTED.
+  optional float distance_threshold = 1; 
+}
+

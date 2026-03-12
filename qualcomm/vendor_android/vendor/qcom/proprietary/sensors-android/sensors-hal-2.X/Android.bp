@@ -1,0 +1,85 @@
+cc_library_shared {
+    name: "sensors.qsh",
+    defaults: [
+        "sns_proto_lib_name-lite",
+        "sns_direct_channel",
+        "sns_wearable_target",
+    ],
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "framework/sensor_direct_channel.cpp",
+        "framework/sensor.cpp",
+        "framework/sensor_attributes.cpp",
+        "framework/sensor_factory.cpp",
+        "framework/sensor_discovery.cpp",
+        "framework/sensors_hal.cpp",
+        "framework/qsh_sensor.cpp",
+        "framework/sensors_hw_module.cpp",
+        "framework/qsh_intf_resource_manager.cpp",
+        "framework/sensors_prop.cpp",
+        "framework/sensor_calibration.cpp",
+        "sensors/*.cpp",
+    ],
+    local_include_dirs: ["framework"],
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-fexceptions",
+        "-Wno-unused-variable",
+        "-Wno-unused-parameter",
+    ],
+    sanitize:{
+        integer_overflow: true,
+//       diag: {
+//           integer_overflow: true,
+//       },
+//        blocklist: "integer_overflow_blacklist.txt"
+    },
+    header_libs: [
+        "vendor_common_inc",
+        "libsensorutils_headers",
+        "libfastrpc_vendor_headers",
+        "libsnsdiag_headers",
+        "android.hardware.sensors@2.X-multihal.header",
+        "libimapper_stablec",
+        "libimapper_providerutils",
+        "common_interface_headers",
+        "libsensinghubcommon_headers",
+    ],
+    shared_libs: [
+        "liblog",
+        "libsnsdiaglog",
+        "libutils",
+        "libcutils",
+        "libhardware",
+        "libdl",
+        "libhidlbase",
+        "android.hardware.sensors@2.0",
+        "android.hardware.sensors@2.1",
+        "android.hardware.sensors@2.0-ScopedWakelock",
+        "android.hardware.graphics.allocator-V2-ndk",
+        "mapper.qti",
+        "libsnsutils",
+        "libsensinghubsession",
+        "libsensinghubapi",
+        "libsensinghubapi-prop",
+        "libsuidlookup",
+    ],
+}
+
+cc_library_headers {
+    name: "libsnshal_headers",
+    export_include_dirs: ["framework"],
+    owner: "qti",
+    proprietary: true,
+}
+
+prebuilt_etc {
+    name: "hals.conf",
+    src: "hals.conf",
+    sub_dir: "sensors",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}

@@ -1,0 +1,38 @@
+cc_binary {
+    name: "ssc_drva_test",
+    defaults: ["sns_proto_lib_name-lite"],
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "ssc_drva_test.cpp",
+    ],
+    local_include_dirs: ["./"],
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-parameter",
+        "-fexceptions",
+    ],
+    cppflags: [
+        "-DSNS_CLIENT_TECH_ENABLED"
+    ],
+    header_libs: [
+        "libcutils_headers",
+        "libsensorutils_headers",
+        "libsnsdiag_headers",
+        "libsensortestutils_headers",
+        "libsensinghubcommon_headers",
+    ],
+    shared_libs: [
+        "liblog",
+        "libsnsutils",
+        "libsnsdiaglog",
+        "libcutils",
+        "libutils",
+        "libsensinghubsession",
+        "libsensinghubapi",
+        "libsensinghubapi-prop",
+        "libsuidlookup",
+    ],
+    static_libs: ["libSensorTestUtils_static",
+    ],
+}

@@ -1,0 +1,506 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+
+Files:
+ *
+Copyright:
+ Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+ All rights reserved.
+ Confidential and Proprietary - Qualcomm Technologies, Inc.
+License: Qualcomm nologin binaries license
+ PLEASE READ THIS LICENSE AGREEMENT ("AGREEMENT") CAREFULLY. THIS AGREEMENT IS
+ A BINDING LEGAL AGREEMENT ENTERED INTO BY AND BETWEEN YOU (OR IF YOU ARE
+ ENTERING INTO THIS AGREEMENT ON BEHALF OF AN ENTITY, THEN THE ENTITY THAT YOU
+ REPRESENT) AND QUALCOMM TECHNOLOGIES, INC. ("QTI" "WE" "OUR" OR "US"). THIS IS
+ THE AGREEMENT THAT APPLIES TO YOUR USE OF THE DESIGNATED AND/OR LINKED
+ APPLICATIONS, THE ENCLOSED QUALCOMM TECHNOLOGIES' MATERIALS, INCLUDING RELATED
+ DOCUMENTATION AND ANY UPDATES OR IMPROVEMENTS THEREOF
+ (COLLECTIVELY, "MATERIALS"). BY USING OR COMPLETING THE INSTALLATION OF THE
+ MATERIALS, YOU ARE ACCEPTING THIS AGREEMENT AND YOU AGREE TO BE BOUND BY ITS
+ TERMS AND CONDITIONS. IF YOU DO NOT AGREE TO THESE TERMS, QTI IS UNWILLING TO
+ AND DOES NOT LICENSE THE MATERIALS TO YOU. IF YOU DO NOT AGREE TO THESE TERMS
+ YOU MUST DISCONTINUE THE INSTALLATION PROCESS AND YOU MAY NOT USE THE MATERIALS
+ OR RETAIN ANY COPIES OF THE MATERIALS. ANY USE OR POSSESSION OF THE MATERIALS
+ BY YOU IS SUBJECT TO THE TERMS AND CONDITIONS SET FORTH IN THIS AGREEMENT.
+ .
+ 1. RIGHT TO USE DELIVERABLES; RESTRICTIONS.
+ .
+  1.1 License. Subject to the terms and conditions of this Agreement,
+  including, without limitation, the restrictions, conditions, limitations and
+  exclusions set forth in this Agreement, QTI hereby grants to you a
+  nonexclusive, limited license under QTI's copyrights to: (i) install and use
+  the Materials; and (ii) to reproduce and redistribute the binary code portions
+  of the Materials (the "Redistributable Binary Code"). You may make and use a
+  reasonable number of copies of any documentation.
+ .
+  1.2 Redistribution Restrictions. Distribution of the Redistributable Binary
+  Code is subject to the following restrictions: (i) Redistributable Binary Code
+  may only be distributed in binary format and may not be distributed in source
+  code format:; (ii) the Redistributable Binary Code may only operate in
+  conjunction with platforms incorporating Qualcomm Technologies, Inc. chipsets;
+  (iii) redistribution of the Redistributable Binary Code must include the .txt
+  file setting forth the terms and condition of this Agreement; (iv) you may not
+  use Qualcomm Technologies' or its affiliates or subsidiaries name, logo or
+  trademarks; and (v) copyright, trademark, patent and any other notices that
+  appear on the Materials may not be removed or obscured.
+ .
+  1.3 Additional Restrictions. Except as expressly permitted by this Agreement,
+  you shall have no right to sublicense, transfer or otherwise disclose the
+  Materials to any third party. You shall not reverse engineer, reverse
+  assemble, reverse translate, decompile or reduce to source code form any
+  portion of the Materials provided in object code form or executable form.
+  Except for the purposes expressly permitted in this Agreement, You shall not
+  use the Materials for any other purpose. QTI (or its licensors) shall retain
+  title and all ownership rights in and to the Materials and any alterations,
+  modifications (including all derivative works), translations or adaptations
+  made of the Materials, and all copies thereof, and nothing herein shall be
+  deemed to grant any right to You under any of QTI's or its affiliates'
+  patents. You shall not subject the Materials to any third party license
+  terms (e.g., open source license terms). You shall not use the Materials for
+  the purpose of identifying or providing evidence to support any potential
+  patent infringement claim against QTI, its affiliates, or any of QTI's or
+  QTI's affiliates' suppliers and/or direct or indirect customers. QTI hereby
+  reserves all rights not expressly granted herein.
+ .
+  1.4 Third Party Software and Materials. The Software may contain or link to
+  certain software and/or materials that are written or owned by third parties.
+  Such third party code and materials may be licensed under separate or
+  different terms and conditions and are not licensed to you under the terms of
+  this Agreement. You agree to comply with all terms and conditions imposed on
+  you in the applicable third party licenses. Such terms and conditions may
+  impose certain obligations on you as a condition to the permitted use of such
+  third party code and materials. QTI does not represent or warrant that such
+  third party licensors have or will continue to license or make available their
+  code and materials to you.
+ .
+  1.5 Feedback. QTI may from time to time receive suggestions, feedback or
+  other information from You regarding the Materials. Any suggestions, feedback
+  or other disclosures received from You are and shall be entirely voluntary on
+  the part of You. Notwithstanding any other term in this Agreement, QTI shall
+  be free to use suggestions, feedback or other information received from You,
+  without obligation of any kind to You. The Parties agree that all inventions,
+  product improvements, and modifications conceived of or made by QTI that are
+  based, either in whole or in part, on ideas, feedback, suggestions, or
+  recommended improvements received from You are the exclusive property of QTI,
+  and all right, title and interest in and to any such inventions, product
+  improvements, and modifications will vest solely in QTI.
+ .
+  1.6 No Technical Support. QTI is under no obligation to provide any form of
+  technical support for the Materials, and if QTI, in its sole discretion,
+  chooses to provide any form of support or information relating to the
+  Materials, such support and information shall be deemed confidential and
+  proprietary to QTI.
+ .
+ 2. WARRANTY DISCLAIMER. YOU EXPRESSLY ACKNOWLEDGE AND AGREE THAT THE USE OF
+ THE MATERIALS IS AT YOUR SOLE RISK. THE MATERIALS AND TECHNICAL SUPPORT, IF
+ ANY, ARE PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND, WHETHER EXPRESS OR
+ IMPLIED. QTI ITS LICENSORS AND AFFILIATES MAKE NO WARRANTIES, EXPRESS OR
+ IMPLIED, WITH RESPECT TO THE MATERIALS OR ANY OTHER INFORMATION OR
+ DOCUMENTATION
+ PROVIDED UNDER THIS AGREEMENT, INCLUDING BUT NOT LIMITED TO ANY WARRANTY OF
+ MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE OR AGAINST INFRINGEMENT, OR
+ ANY EXPRESS OR IMPLIED WARRANTY ARISING OUT OF TRADE USAGE OR OUT OF A COURSE OF
+ DEALING OR COURSE OF PERFORMANCE. NOTHING CONTAINED IN THIS AGREEMENT SHALL BE
+ CONSTRUED AS (I) A WARRANTY OR REPRESENTATION BY QTI, ITS LICENSORS OR
+ AFFILIATES AS TO THE VALIDITY OR SCOPE OF ANY PATENT, COPYRIGHT OR OTHER
+ INTELLECTUAL PROPERTY RIGHT OR (II) A WARRANTY OR REPRESENTATION BY QTI THAT ANY
+ MANUFACTURE OR USE WILL BE FREE FROM INFRINGEMENT OF PATENTS, COPYRIGHTS OR
+ OTHER INTELLECTUAL PROPERTY RIGHTS OF OTHERS, AND IT SHALL BE THE SOLE
+ RESPONSIBILITY OF YOU TO MAKE SUCH DETERMINATION AS IS NECESSARY WITH RESPECT TO
+ THE ACQUISITION OF LICENSES UNDER PATENTS AND OTHER INTELLECTUAL PROPERTY OF
+ THIRD PARTIES.
+ .
+ 3. NO OTHER LICENSES OR INTELLECTUAL PROPERTY RIGHTS. Neither this Agreement,
+ nor any act by QTI or any of its affiliates pursuant to this Agreement or
+ relating to the Materials (including, without limitation, the provision by QTI
+ or its affiliates of the Materials), shall provide to You any license or any
+ other rights whatsoever under any patents, trademarks, trade secrets, copyrights
+ or any other intellectual property of QTI or any of its affiliates, except for
+ the copyright rights expressly licensed under this Agreement. You understand and
+ agree that:
+ .
+  (i) Neither this Agreement, nor delivery of the Materials, grants any right to
+  practice, or any other right at all with respect to, any patent of QTI or any
+  of its affiliates; and
+  (ii) A separate license agreement from QUALCOMM Incorporated is needed to use
+  or practice any patent of QUALCOMM Incorporated. You agree not to contend in
+  any context that, as a result of the provision or use of the Materials, either
+  QTI or any of its affiliates has any obligation to extend, or You or any other
+  party has obtained any right to, any license, whether express or implied, with
+  respect to any patent of QTI or any of its affiliates for any purpose.
+ .
+ 4. TERMINATION. This Agreement shall be effective upon acceptance, or access or
+ use of the Materials (whichever occurs first) by You and shall continue until
+ terminated. You may terminate the Agreement at any time by deleting and
+ destroying all copies of the Materials and all related information in Your
+ possession or control. This Agreement terminates immediately and automatically,
+ with or without notice, if You fail to comply with any provision hereof.
+ Additionally, QTI may at any time terminate this Agreement, without cause, upon
+ notice to You. Upon termination You must, to the extent possible, delete or
+ destroy all copies of the Materials in Your possession and the license granted
+ to You in this Agreement shall terminate. Sections 1.2 through 10 shall survive
+ the termination of this Agreement. In the event that any restrictions,
+ conditions, limitations are found to be either invalid or unenforceable, the
+ rights granted to You in Section 1 (License) shall be null, void and ineffective
+ from the Effective Date, and QTI shall also have the right to terminate this
+ Agreement immediately, and with retroactive effect to the effective date.
+ .
+ 5. LIMITATION OF LIABILITY. IN NO EVENT SHALL QTI, QTI's AFFILIATES OR ITS
+ LICENSORS BE LIABLE TO YOU FOR ANY INCIDENTAL, CONSEQUENTIAL OR SPECIAL DAMAGES,
+ INCLUDING BUT NOT LIMITED TO ANY LOST PROFITS, LOST SAVINGS, OR OTHER INCIDENTAL
+ DAMAGES, ARISING OUT OF THE USE OR INABILITY TO USE, OR THE DELIVERY OR FAILURE
+ TO DELIVER, ANY OF THE DELIVERABLES, OR ANY BREACH OF ANY OBLIGATION UNDER THIS
+ AGREEMENT, EVEN IF QTI HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ THE FOREGOING LIMITATION OF LIABILITY SHALL REMAIN IN FULL FORCE AND EFFECT
+ REGARDLESS OF WHETHER YOUR REMEDIES HEREUNDER ARE DETERMINED TO HAVE FAILED
+ OF
+ THEIR ESSENTIAL PURPOSE. THE ENTIRE LIABILITY OF QTI, QTI's AFFILIATES AND ITS
+ LICENSORS, AND THE SOLE AND EXCLUSIVE REMEDY OF YOU, FOR ANY CLAIM OR CAUSE OF
+ ACTION ARISING HEREUNDER (WHETHER IN CONTRACT, TORT, OR OTHERWISE) SHALL NOT
+ EXCEED US$50.
+ .
+ 6. INDEMNIFICATION. You agree to indemnify and hold harmless QTI and its
+ officers, directors, employees and successors and assigns against any and all
+ third party claims, demands, causes of action, losses, liabilities, damages,
+ costs and expenses, incurred by QTI (including but not limited to costs of
+ defense, investigation and reasonable attorney's fees) arising out of, resulting
+ from or related to: (i) any breach of this Agreement by You; and (ii) your acts,
+ omissions, products and services. If requested by QTI, You agree to defend QTI
+ in connection with any third party claims, demands, or causes of action
+ resulting from, arising out of or in connection with any of the foregoing.
+ .
+ 7. ASSIGNMENT. You shall not assign this Agreement or any right or interest
+ under this Agreement, nor delegate any obligation to be performed under this
+ Agreement, without QTI's prior written consent. For purposes of this Section 7,
+ an "assignment" by You under this Section shall be deemed to include, without
+ limitation, any merger, consolidation, sale of all or substantially all of its
+ assets, or any substantial change in the management or control of You.
+ Any attempted assignment in contravention of this Section 9 shall be void.
+ QTI may freely assign this Agreement or delegate any or all of its rights and
+ obligations hereunder to any third party.
+ .
+ 8. COMPLIANCE WITH LAWS; APPLICABLE LAW. You agree to comply with all
+ applicable local, international and national laws and regulations and with U.S.
+ Export Administration Regulations, as they apply to the subject matter of this
+ Agreement. This Agreement is governed by the laws of the State of California,
+ excluding California's choice of law rules.
+ .
+ 9. CONTRACTING PARTIES. If the Materials are downloaded on any computer owned
+ by a corporation or other legal entity, then this Agreement is formed by and
+ between QTI and such entity. The individual accepting the terms of this
+ Agreement represents and warrants to QTI that they have the authority to bind
+ such entity to the terms and conditions of this Agreement.
+ .
+ 10. MISCELLANEOUS PROVISIONS. This Agreement, together with all exhibits
+ attached hereto, which are incorporated herein by this reference, constitutes
+ the entire agreement between QTI and You and supersedes all prior negotiations,
+ representations and agreements between the parties with respect to the subject
+ matter hereof. No addition or modification of this Agreement shall be effective
+ unless made in writing and signed by the respective representatives of QTI and
+ You. The restrictions, limitations, exclusions and conditions set forth in this
+ Agreement shall apply even if QTI or any of its affiliates becomes aware of or
+ fails to act in a manner to address any violation or failure to comply
+ therewith. You hereby acknowledge and agree that the restrictions, limitations,
+ conditions and exclusions imposed in this Agreement on the rights granted in
+ this Agreement are not a derogation of the benefits of such rights. You further
+ acknowledges that, in the absence of such restrictions, limitations, conditions
+ and exclusions, QTI would not have entered into this Agreement with You. Each
+ party shall be responsible for and shall bear its own expenses in connection
+ with this Agreement. If any of the provisions of this Agreement are determined
+ to be invalid, illegal, or otherwise unenforceable, the remaining provisions
+ shall remain in full force and effect. This Agreement is entered into solely
+ in the English language, and if for any reason any other language version is
+ prepared by any party, it shall be solely for convenience and the English
+ version shall govern and control all aspects. If You are located in the
+ province of Quebec, Canada, the following applies: The Parties hereby confirm
+ they have requested this Agreement and all related documents be prepared
+ in English.
+ .
+ This text file is provided to comply with the attribution requirements of
+ the licenses herein, but see NOTICE for license terms of this software.
+ The Apache 2.0 license can be found at http://www.apache.org/licenses/LICENSE-2.0.html
+ .
+  .
+                                  Apache License
+                            Version 2.0, January 2004
+                         http://www.apache.org/licenses/
+ .
+    TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+ .
+    1. Definitions.
+ .
+       "License" shall mean the terms and conditions for use, reproduction,
+       and distribution as defined by Sections 1 through 9 of this document.
+ .
+       "Licensor" shall mean the copyright owner or entity authorized by
+       the copyright owner that is granting the License.
+ .
+       "Legal Entity" shall mean the union of the acting entity and all
+       other entities that control, are controlled by, or are under common
+       control with that entity. For the purposes of this definition,
+       "control" means (i) the power, direct or indirect, to cause the
+       direction or management of such entity, whether by contract or
+       otherwise, or (ii) ownership of fifty percent (50%) or more of the
+       outstanding shares, or (iii) beneficial ownership of such entity.
+ .
+       "You" (or "Your") shall mean an individual or Legal Entity
+       exercising permissions granted by this License.
+ .
+       "Source" form shall mean the preferred form for making modifications,
+       including but not limited to software source code, documentation
+       source, and configuration files.
+ .
+       "Object" form shall mean any form resulting from mechanical
+       transformation or translation of a Source form, including but
+       not limited to compiled object code, generated documentation,
+       and conversions to other media types.
+ .
+       "Work" shall mean the work of authorship, whether in Source or
+       Object form, made available under the License, as indicated by a
+       copyright notice that is included in or attached to the work
+       (an example is provided in the Appendix below).
+ .
+       "Derivative Works" shall mean any work, whether in Source or Object
+       form, that is based on (or derived from) the Work and for which the
+       editorial revisions, annotations, elaborations, or other modifications
+       represent, as a whole, an original work of authorship. For the purposes
+       of this License, Derivative Works shall not include works that remain
+       separable from, or merely link (or bind by name) to the interfaces of,
+       the Work and Derivative Works thereof.
+ .
+       "Contribution" shall mean any work of authorship, including
+       the original version of the Work and any modifications or additions
+       to that Work or Derivative Works thereof, that is intentionally
+       submitted to Licensor for inclusion in the Work by the copyright owner
+       or by an individual or Legal Entity authorized to submit on behalf of
+       the copyright owner. For the purposes of this definition, "submitted"
+       means any form of electronic, verbal, or written communication sent
+       to the Licensor or its representatives, including but not limited to
+       communication on electronic mailing lists, source code control systems,
+       and issue tracking systems that are managed by, or on behalf of, the
+       Licensor for the purpose of discussing and improving the Work, but
+       excluding communication that is conspicuously marked or otherwise
+       designated in writing by the copyright owner as "Not a Contribution."
+ .
+       "Contributor" shall mean Licensor and any individual or Legal Entity
+       on behalf of whom a Contribution has been received by Licensor and
+       subsequently incorporated within the Work.
+ .
+    2. Grant of Copyright License. Subject to the terms and conditions of
+       this License, each Contributor hereby grants to You a perpetual,
+       worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+       copyright license to reproduce, prepare Derivative Works of,
+       publicly display, publicly perform, sublicense, and distribute the
+       Work and such Derivative Works in Source or Object form.
+ .
+    3. Grant of Patent License. Subject to the terms and conditions of
+       this License, each Contributor hereby grants to You a perpetual,
+       worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+       (except as stated in this section) patent license to make, have made,
+       use, offer to sell, sell, import, and otherwise transfer the Work,
+       where such license applies only to those patent claims licensable
+       by such Contributor that are necessarily infringed by their
+       Contribution(s) alone or by combination of their Contribution(s)
+       with the Work to which such Contribution(s) was submitted. If You
+       institute patent litigation against any entity (including a
+       cross-claim or counterclaim in a lawsuit) alleging that the Work
+       or a Contribution incorporated within the Work constitutes direct
+       or contributory patent infringement, then any patent licenses
+       granted to You under this License for that Work shall terminate
+       as of the date such litigation is filed.
+ .
+    4. Redistribution. You may reproduce and distribute copies of the
+       Work or Derivative Works thereof in any medium, with or without
+       modifications, and in Source or Object form, provided that You
+       meet the following conditions:
+ .
+       (a) You must give any other recipients of the Work or
+           Derivative Works a copy of this License; and
+ .
+       (b) You must cause any modified files to carry prominent notices
+           stating that You changed the files; and
+ .
+       (c) You must retain, in the Source form of any Derivative Works
+           that You distribute, all copyright, patent, trademark, and
+           attribution notices from the Source form of the Work,
+           excluding those notices that do not pertain to any part of
+           the Derivative Works; and
+ .
+       (d) If the Work includes a "NOTICE" text file as part of its
+           distribution, then any Derivative Works that You distribute must
+           include a readable copy of the attribution notices contained
+           within such NOTICE file, excluding those notices that do not
+           pertain to any part of the Derivative Works, in at least one
+           of the following places: within a NOTICE text file distributed
+           as part of the Derivative Works; within the Source form or
+           documentation, if provided along with the Derivative Works; or,
+           within a display generated by the Derivative Works, if and
+           wherever such third-party notices normally appear. The contents
+           of the NOTICE file are for informational purposes only and
+           do not modify the License. You may add Your own attribution
+           notices within Derivative Works that You distribute, alongside
+           or as an addendum to the NOTICE text from the Work, provided
+           that such additional attribution notices cannot be construed
+           as modifying the License.
+ .
+       You may add Your own copyright statement to Your modifications and
+       may provide additional or different license terms and conditions
+       for use, reproduction, or distribution of Your modifications, or
+       for any such Derivative Works as a whole, provided Your use,
+       reproduction, and distribution of the Work otherwise complies with
+       the conditions stated in this License.
+ .
+    5. Submission of Contributions. Unless You explicitly state otherwise,
+       any Contribution intentionally submitted for inclusion in the Work
+       by You to the Licensor shall be under the terms and conditions of
+       this License, without any additional terms or conditions.
+       Notwithstanding the above, nothing herein shall supersede or modify
+       the terms of any separate license agreement you may have executed
+       with Licensor regarding such Contributions.
+ .
+    6. Trademarks. This License does not grant permission to use the trade
+       names, trademarks, service marks, or product names of the Licensor,
+       except as required for reasonable and customary use in describing the
+       origin of the Work and reproducing the content of the NOTICE file.
+ .
+    7. Disclaimer of Warranty. Unless required by applicable law or
+       agreed to in writing, Licensor provides the Work (and each
+       Contributor provides its Contributions) on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+       implied, including, without limitation, any warranties or conditions
+       of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+       PARTICULAR PURPOSE. You are solely responsible for determining the
+       appropriateness of using or redistributing the Work and assume any
+       risks associated with Your exercise of permissions under this License.
+ .
+    8. Limitation of Liability. In no event and under no legal theory,
+       whether in tort (including negligence), contract, or otherwise,
+       unless required by applicable law (such as deliberate and grossly
+       negligent acts) or agreed to in writing, shall any Contributor be
+       liable to You for damages, including any direct, indirect, special,
+       incidental, or consequential damages of any character arising as a
+       result of this License or out of the use or inability to use the
+       Work (including but not limited to damages for loss of goodwill,
+       work stoppage, computer failure or malfunction, or any and all
+       other commercial damages or losses), even if such Contributor
+       has been advised of the possibility of such damages.
+ .
+    9. Accepting Warranty or Additional Liability. While redistributing
+       the Work or Derivative Works thereof, You may choose to offer,
+       and charge a fee for, acceptance of support, warranty, indemnity,
+       or other liability obligations and/or rights consistent with this
+       License. However, in accepting such obligations, You may act only
+       on Your own behalf and on Your sole responsibility, not on behalf
+       of any other Contributor, and only if You agree to indemnify,
+       defend, and hold each Contributor harmless for any liability
+       incurred by, or claims asserted against, such Contributor by reason
+       of your accepting any such warranty or additional liability.
+ .
+    END OF TERMS AND CONDITIONS
+ .
+    APPENDIX: How to apply the Apache License to your work.
+ .
+       To apply the Apache License to your work, attach the following
+       boilerplate notice, with the fields enclosed by brackets "[]"
+       replaced with your own identifying information. (Don't include
+       the brackets!)  The text should be enclosed in the appropriate
+       comment syntax for the file format. We also recommend that a
+       file or class name and description of purpose be included on the
+       same "printed page" as the copyright notice for easier
+       identification within third-party archives.
+ .
+    Copyright [yyyy] [name of copyright owner]
+ .
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+ .
+        http://www.apache.org/licenses/LICENSE-2.0
+ .
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ .
+ This NOTICE file contains certain notices of software components included
+ with the software that Qualcomm Technologies, Inc. ("Qualcomm Technologies") is required to
+ provide you. Notwithstanding anything in the notices in this file, your use
+ of these software components together with the Qualcomm Technologies software (Qualcomm Technologies
+ software hereinafter referred to as "Software") is subject to the terms of
+ your license from Qualcomm Technologies. Compliance with all copyright laws and software
+ license agreements included in the notice section of this file are the
+ responsibility of the user. Except as may be granted by separate express
+ written agreement, this file provides no license to any patents,
+ trademarks, copyrights, or other intellectual property.
+ .
+ Copyright (c) 2020 Qualcomm Technologies, Inc. All rights reserved.
+ Qualcomm is a registered trademark and registered service mark of
+ QUALCOMM Incorporated. All other trademarks and service marks are the
+ property of their respective owners.
+ ________________________________________
+ NOTICES
+ ________________________________________
+ .
+ /* 
+  * Copyright (C) 2012 The Android Open Source Project 
+  * 
+  * Licensed under the Apache License, Version 2.0 (the "License"); 
+  * you may not use this file except in compliance with the License. 
+  * You may obtain a copy of the License at 
+  * 
+  *      http://www.apache.org/licenses/LICENSE-2.0 
+  * 
+  * Unless required by applicable law or agreed to in writing, software 
+  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+  * See the License for the specific language governing permissions and 
+  * limitations under the License. 
+  */ 
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NON-INFRINGEMENT ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ ________________________________________
+
+Files:
+ debian/*
+Copyright:
+ Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
+License: BSD-3-Clause-Clear
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted (subject to the limitations in the
+ disclaimer below) provided that the following conditions are met:
+ .
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+ .
+     * Redistributions in binary form must reproduce the above
+       copyright notice, this list of conditions and the following
+       disclaimer in the documentation and/or other materials provided
+       with the distribution.
+ .
+     * Neither the name of Qualcomm Innovation Center, Inc. nor the names of its
+       contributors may be used to endorse or promote products derived
+       from this software without specific prior written permission.
+ .
+ NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE
+ GRANTED BY THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT
+ HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED
+ WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
+ IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

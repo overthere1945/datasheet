@@ -1,0 +1,60 @@
+// @file sns_offbody_detect.proto
+//
+// @brief Defines the API for the Offbody Detection Sensors.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All rights reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details An offbody detect sensor reports every time the device transitions
+//          from off-body to on-body and from on-body to off-body
+//          (e.g. a wearable device being removed from the wrist would trigger
+//          an event indicating an off-body transition).
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "offbody_detect".
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE.
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_offbody_detect.proto".
+//
+// ## Processing Stream Requests:
+// - SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the sensor.
+//
+// ## Publishing Stream Events:
+// SNS_OFFBODY_DETECT_MSGID_SNS_OFFBODY_DETECT_EVENT
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+import "sns_physical_sensor_test.proto";
+import "sns_cal.proto";
+
+// @brief Message IDs for Offbody Detection Sensor.
+enum sns_offbody_detect_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_OFFBODY_DETECT_MSGID_SNS_OFFBODY_DETECT_EVENT = 772;
+}
+
+// @brief Offbody event types.
+enum sns_offbody_detect_event_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Current state is unknown: not yet detected.
+  SNS_OFFBODY_DETECT_EVENT_TYPE_UNKNOWN     = 0;
+  // @brief Device has been detected to be on-body.
+  SNS_OFFBODY_DETECT_EVENT_TYPE_ON          = 1;
+  // @brief Device has been detected to be off-body.
+  SNS_OFFBODY_DETECT_EVENT_TYPE_OFF         = 2;
+}
+
+// @brief Offbody event
+message sns_offbody_detect_event
+{
+  // @brief Detected state.
+  required sns_offbody_detect_event_type state = 1 [default = SNS_OFFBODY_DETECT_EVENT_TYPE_UNKNOWN];
+
+  // @brief Accuracy level of the state.
+  optional sns_std_sensor_sample_status status = 2 [default = SNS_STD_SENSOR_SAMPLE_STATUS_UNRELIABLE];
+}

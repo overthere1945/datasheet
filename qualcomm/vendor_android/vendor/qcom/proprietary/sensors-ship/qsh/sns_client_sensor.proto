@@ -1,0 +1,93 @@
+// @file sns_client_sensor.proto
+//
+// Defines API for the Client Sensor
+//
+// The Client Sensor is used to manage multiple concurrent client requests
+// for a sensor on a single connection
+//
+// Copyright (c) 2022 Qualcomm Technologies, Inc.
+// All Rights Reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std.proto";
+import "sns_std_type.proto";
+
+// Attributes:
+// SNS_STD_SENSOR_ATTRID_TYPE: "client_sensor"
+// SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+
+enum sns_client_sensor_msgid
+{
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_CONFIG = 6;
+
+  SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_ENABLE = 7;
+
+  SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_DISABLE = 8;
+
+  SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_EVENT = 256;
+}
+
+// Client Sensor Config message
+// Uses Msg ID SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_CONFIG
+
+// This must be the first message sent to the client sensor specifying the
+// suid of the sensor to create connections to.
+// All further requests received are relayed to that suid.
+
+// There can only be one Sensor suid configured on a connection at a time.
+// This configuration persists on the connection till it is torn down.
+// Any attempts to reconfigure is rejected with an error event.
+message sns_client_sensor_config
+{
+  // SUID of the Sensor to connect to
+  required sns_std_suid suid = 1;
+}
+
+// Client Sensor Enable message
+// Uses Msg ID SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_ENABLE
+
+// The very first enable message for a client_id will result in a new
+// connection being created to the suid. All subsequent requests are relayed
+// on that existing connection.
+
+message sns_client_sensor_enable
+{
+  required uint32 client_id = 1;
+
+  // Msg ID of the request
+  required uint32 request_msg_id = 2;
+
+  // Request message to be relayed to suid
+  optional bytes request_payload = 3;
+}
+
+// Client Sensor Disable message
+// Uses Msg ID SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_DISABLE
+
+// Connection to suid associated with the client_id is removed.
+message sns_client_sensor_disable
+{
+  required uint32 client_id = 1;
+}
+
+// Client Sensor Event message
+// Uses Msg ID SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_EVENT
+
+message sns_client_sensor_event
+{
+  required uint32 client_id = 1;
+
+  // Msg ID of the event
+  required uint32 event_msg_id = 2;
+
+  // Event Message received from the suid
+  optional bytes event = 3;
+}
+
+
+
+

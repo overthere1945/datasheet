@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with-systemd
+
+override_dh_auto_configure:
+	dh_auto_configure -- --with-glib --enable-versioned-lib
+override_dh_auto_install:
+	dh_auto_install

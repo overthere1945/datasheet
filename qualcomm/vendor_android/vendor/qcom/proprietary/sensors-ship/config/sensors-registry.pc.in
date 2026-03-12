@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: sensors-registry
+Description: sensors-registry library
+Version: @VERSION@
+Libs: -L${libdir}
+Cflags: -I${includedir}/sensors-registry

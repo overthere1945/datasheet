@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: sensors-core
+Description: sensors-core library
+Version: @LT_VERSION@
+Libs: -L${libdir} -lQshQmiIDL -lQshSession
+Cflags: -I${includedir}/core/qshQmiIDL/ -I${includedir}/core/sessionImpl/

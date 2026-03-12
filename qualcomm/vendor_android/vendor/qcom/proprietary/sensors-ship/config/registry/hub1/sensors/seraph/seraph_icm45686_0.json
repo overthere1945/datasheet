@@ -1,0 +1,305 @@
+{
+  "config":
+  {
+    "hw_platform": ["RCM","CDPS","GDP","IDP"],
+    "platform_family": ["163"]
+  },
+  "icm45686_0":{
+    "owner": "icm45686",
+    ".accel":{
+      "owner": "icm45686",
+      ".config":{
+        "owner": "icm45686",
+        "is_dri":{ "type": "int", "ver": "0",
+          "data": "2"
+        },
+        "hw_id":{ "type": "int", "ver": "0",
+          "data": "4"
+        },
+        "res_idx":{ "type": "int", "ver": "0",
+          "data": "4"
+        },
+        "sync_stream":{ "type": "int", "ver": "0",
+          "data": "0"
+        }
+      }
+    },
+    ".gyro":{
+      "owner": "icm45686",
+      ".config":{
+        "owner": "icm45686",
+        "is_dri":{ "type": "int", "ver": "0",
+          "data": "2"
+        },
+        "hw_id":{ "type": "int", "ver": "0",
+          "data": "4"
+        },
+        "res_idx":{ "type": "int", "ver": "0",
+          "data": "7"
+        },
+        "sync_stream":{ "type": "int", "ver": "0",
+          "data": "0"
+        }
+      }
+    },
+    ".md":{
+      "owner": "icm45686",
+      ".config":{
+        "owner": "icm45686",
+        "is_dri":{ "type": "int", "ver": "0",
+          "data": "2"
+        },
+        "hw_id":{ "type": "int", "ver": "0",
+          "data": "4"
+        },
+        "res_idx":{ "type": "int", "ver": "0",
+          "data": "0"
+        },
+        "sync_stream":{ "type": "int", "ver": "0",
+          "data": "0"
+        }
+      }
+    },
+    ".freefall":{
+      "owner": "icm45686",
+      ".config":{
+        "owner": "icm45686",
+        "is_dri":{ "type": "int", "ver": "0",
+          "data": "2"
+        },
+        "hw_id":{ "type": "int", "ver": "0",
+          "data": "4"
+        },
+        "res_idx":{ "type": "int", "ver": "0",
+          "data": "0"
+        },
+        "sync_stream":{ "type": "int", "ver": "0",
+          "data": "0"
+        }
+      }
+    },
+    ".temp":{
+      "owner": "icm45686",
+      ".config":{
+        "owner": "icm45686",
+        "is_dri":{ "type": "int", "ver": "0",
+          "data": "0"
+        },
+        "hw_id":{ "type": "int", "ver": "0",
+          "data": "4"
+        },
+        "res_idx":{ "type": "int", "ver": "0",
+          "data": "2"
+        },
+        "sync_stream":{ "type": "int", "ver": "0",
+          "data": "0"
+        }
+      }
+    }
+  },
+  "icm45686_0_platform":{
+    "owner": "icm45686",
+    ".config":{
+      "owner": "icm45686",
+      "bus_type":{ "type": "int", "ver": "0",
+        "data": "3"
+      },
+      "bus_instance":{ "type": "int", "ver": "0",
+        "data": "3"
+      },
+      "slave_config":{ "type": "int", "ver": "0",
+        "data": "105"
+      },
+      "i3c_address":{ "type": "int", "ver": "0",
+        "data": "40"
+      },
+      "min_bus_speed_khz":{ "type": "int", "ver": "0",
+        "data": "0"
+      },
+      "max_bus_speed_khz":{ "type": "int", "ver": "0",
+        "data": "12500"
+      },
+      "reg_addr_type":{ "type": "int", "ver": "0",
+        "data": "0"
+      },
+      "dri_irq_num":{ "type": "int", "ver": "0",
+        "data": "136"
+      },
+      "irq_pull_type":{ "type": "int", "ver": "0",
+        "data": "0"
+      },
+      "irq_is_chip_pin":{ "type": "int", "ver": "0",
+        "data": "1"
+      },
+      "irq_drive_strength":{ "type": "int", "ver": "0",
+        "data": "0"
+      },
+      "irq_trigger_type":{ "type": "int", "ver": "0",
+        "data": "4"
+      },
+      "num_rail":{ "type": "int", "ver": "0",
+        "data": "1"
+      },
+      "rail_on_state":{ "type": "int", "ver": "0",
+        "data": "2"
+      },
+      "vddio_rail":{ "type": "str", "ver": "0",
+        "data": "/sns/local/eLDO/105"
+      },
+      "rigid_body_type":{ "type": "int", "ver": "0",
+        "data": "2"
+      },
+      "min_odr":{ "type": "int", "ver": "0",
+        "data": "20"
+      },
+      "max_odr":{ "type": "int", "ver": "0",
+        "data": "500"
+      },
+      "max_low_latency_odr":{ "type": "int", "ver": "0",
+        "data": "500"
+      }
+    },
+    ".orient":{
+      "owner": "icm45686",
+      "x":{ "type": "str", "ver": "0",
+        "data": "+x"
+      },
+      "y":{ "type": "str", "ver": "0",
+        "data": "+y"
+      },
+      "z":{ "type": "str", "ver": "0",
+        "data": "+z"
+      }
+    },
+    ".gyro":{
+      "owner": "icm45686",
+      ".fac_cal":{
+        "owner": "icm45686",
+        ".corr_mat":{
+          "owner": "icm45686",
+          "0_0":{ "type": "flt", "ver": "0",
+            "data": "1.0"
+          },
+          "0_1":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "0_2":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "1_0":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "1_1":{ "type": "flt", "ver": "0",
+            "data": "1.0"
+          },
+          "1_2":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "2_0":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "2_1":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "2_2":{ "type": "flt", "ver": "0",
+            "data": "1.0"
+          }
+        },
+        ".bias":{
+          "owner": "icm45686",
+          "x":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "y":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "z":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          }
+        }
+      }
+    },
+    ".accel":{
+      "owner": "icm45686",
+      ".fac_cal":{
+        "owner": "icm45686",
+        ".corr_mat":{
+          "owner": "icm45686",
+          "0_0":{ "type": "flt", "ver": "0",
+            "data": "1.0"
+          },
+          "0_1":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "0_2":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "1_0":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "1_1":{ "type": "flt", "ver": "0",
+            "data": "1.0"
+          },
+          "1_2":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "2_0":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "2_1":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "2_2":{ "type": "flt", "ver": "0",
+            "data": "1.0"
+          }
+        },
+        ".bias":{
+          "owner": "icm45686",
+          "x":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "y":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          },
+          "z":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          }
+        }
+      }
+    },
+    ".temp":{
+      "owner": "icm45686",
+      ".fac_cal":
+      {
+        "owner": "icm45686",
+        ".scale":{
+          "owner": "icm45686",
+          "x":{ "type": "flt", "ver": "0",
+            "data": "1.0"
+          }
+        },
+        ".bias":{
+          "owner": "icm45686",
+          "x":{ "type": "flt", "ver": "0",
+            "data": "0.0"
+          }
+        }
+      }
+    },
+    ".md":{
+      "owner": "icm45686",
+      ".config":{
+        "owner": "icm45686",
+        "thresh":{ "type": "flt", "ver": "0",
+            "data": "1.2264"
+        },
+        "disable":{ "type": "int", "ver": "0",
+          "data": "0"
+        },
+        "win":{ "type": "flt", "ver": "0",
+          "data": "0.0"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "config": {
+  },
+  "sensing_hubs": {
+    "owner": "sensing_hubs",
+    ".sensing_hub_1": {
+      "owner": "sensing_hub_1",
+      "sensing_hub_id":{ "type": "int", "ver": "0", "data": "1"},
+      "platform_id":{ "type": "str","ver": "0", "data": "hub_1"},
+      "client_comm_type":{ "type": "int", "ver": "0", "data": "0"},
+      ".client_comm": {
+        "owner": "sensing_hub_1",
+        "service_id": { "type": "int", "ver": "0", "data": "400" }
+      },
+      "qsh_comm_type": { "type": "int", "ver": "0", "data": "1" },
+      ".qsh_comm": {
+        "owner": "sensing_hub_1",
+        "link_name":{ "type": "str", "ver": "0", "data": "adsp" },
+        ".links":{
+          "owner": "sensing_hub_1",
+            ".link_0": {
+              "owner": "sensing_hub_1",
+              "id" : { "type": "int", "ver": "0", "data": "0" },
+              "link_name":{ "type": "str", "ver": "0", "data": "m55" },
+              "no_of_channels":{ "type": "int", "ver": "0", "data": "1" }
+            }
+        }
+      }
+    },
+    ".sensing_hub_2": {
+      "owner": "sensing_hub_2",
+      "sensing_hub_id": { "type": "int", "ver": "0", "data": "2" },
+      "platform_id": { "type": "str","ver": "0", "data": "hub_2" },
+      "client_comm_type":{ "type": "int", "ver": "0", "data": "1"},
+      ".client_comm": {
+        "owner": "sensing_hub_2",
+        "link_name": { "type": "str", "ver": "0", "data":" m55" },
+        ".links": {
+          "owner": "sensing_hub_2",
+          ".link_0": {
+            "owner": "sensing_hub_2",
+            "id" : { "type": "int", "ver": "0",  "data": "0" },
+            "link_name": { "type": "str", "ver": "0", "data": "apps" },
+            "no_of_channels": { "type": "int", "ver": "0", "data": "9" }
+          },
+          ".link_1": {
+            "owner": "sensing_hub_2",
+            "id" : { "type": "int", "ver": "0", "data": "1" },
+            "link_name": { "type": "str", "ver": "0", "data": "mdsp" },
+            "no_of_channels": { "type": "int", "ver": "0", "data": "1" }
+          }
+        }
+      },
+      "qsh_comm_type": { "type": "int", "ver": "0", "data": "1" },
+      ".qsh_comm": {
+        "owner": "sensing_hub_2",
+        "link_name": { "type": "str", "ver": "0", "data":"m55" },
+        ".links": {
+          "owner": "sensing_hub_2",
+          ".link_0": {
+            "owner": "sensing_hub_2",
+            "id" : { "type": "int", "ver": "0",  "data": "0" },
+            "link_name": {"type": "str", "ver": "0", "data": "adsp" },
+            "no_of_channels": { "type": "int", "ver": "0", "data": "1" }
+          }
+        }
+      }
+    }
+  }
+}

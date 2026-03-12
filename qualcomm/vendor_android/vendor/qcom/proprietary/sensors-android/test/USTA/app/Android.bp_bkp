@@ -1,0 +1,16 @@
+android_app {
+    name: "UnifiedSensorTestApp",
+    srcs: ["**/*.java"] + ["java/**/*.java"],
+    certificate: "platform",
+    static_libs: [
+        "android-support-design",
+    ],
+    resource_dirs: ["res"],
+    optimize: {
+        proguard_flags_files: ["proguard.flags"],
+    },
+    owner: "qti",
+    proprietary: true,
+    sdk_version: "current",
+    min_sdk_version: "23",
+}

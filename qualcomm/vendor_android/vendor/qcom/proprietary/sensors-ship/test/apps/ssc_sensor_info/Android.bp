@@ -1,0 +1,33 @@
+cc_binary {
+    name: "ssc_sensor_info",
+    defaults: ["sns_proto_lib_name-lite"],
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "ssc_sensor_info.cpp",
+    ],
+    local_include_dirs: ["./"],
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-parameter",
+        "-fexceptions",
+    ],
+    cppflags: [
+        "-DSNS_CLIENT_TECH_ENABLED"
+    ],
+    header_libs: [
+        "libcutils_headers",
+        "libsensorutils_headers",
+        "libsnsdiag_headers",
+        "libsensinghubcommon_headers",
+    ],
+    shared_libs: [
+        "liblog",
+        "libsnsutils",
+        "libcutils",
+        "libsnsdiaglog",
+        "libsensinghubsession",
+        "libsensinghubapi",
+        "libsensinghubapi-prop",
+    ],
+}

@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: sensors-utils
+Description: sensors-utils library
+Version: @LT_VERSION@
+Libs: -L${libdir} -lsnsutils
+Cflags: -I${includedir}/utils/

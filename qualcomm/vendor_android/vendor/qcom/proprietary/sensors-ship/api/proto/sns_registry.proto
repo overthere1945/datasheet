@@ -1,0 +1,150 @@
+// @file sns_registry.proto
+//
+// @brief Sensors Registry message definitions for internal and external clients
+//
+// @copyright 
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All rights reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details ## Registry Sensor Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "registry"
+// 2. SNS_STD_SENSOR_ATTRID_API: "sns_registry.proto"
+// 3. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_SINGLE_OUTPUT
+//
+// ## Processing Stream Requests:
+// 1. The Registry Sensor handles the sns_registry_read_req request by searching
+//    its database for the group or item specified in the request and replying with
+//    the associated data.
+//    a. The name shall be in form: "group_name[.sub_group_name][.item_name]"
+//       There may be zero or more levels of subgroups specified. Including an
+//       item name is optional.  
+// 2. The Registry Sensor handles the sns_registry_write_req by writing the
+//    associated group to its database.
+//    a. The name shall be in form: "group_name[.sub_group_name]"
+//       There may be zero or more levels of subgroups specified.
+//    b. If a (sub)group is not found, the registry will attempt to create the
+//       (sub)group.
+//    c. If an item's version number is 0 or higher than an existing item's version
+//       number, it will overwrite the existing data in the database.
+//    d. Existing items in a group are not modified if those items are not present
+//       in the write request.
+// 3. The Registry Sensor may support a persistent database. In this case, writes
+//    to the database are saved across reboots.
+// 4. The Registry Sensor may support a RAM-only database. This database must be
+//    initialized with persistent ROM data upon bootup. Writes to this database
+//    are stored in a RAM copy which will be lost across reboots.
+//
+// ## Publishing Stream Events:
+// 1. The Registry Sensor publishes a sns_registry_read_event upon completion
+//    of a read request.
+//    a. The "data" field will be empty if the group or item was not found.
+//    b. If an item name was included in the read request, the entire group
+//       containing that item may be returned in the read event.
+// 2. A sns_registry_write_event is published upon completion of a write
+//    request.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std.proto";
+
+
+// @brief Registry Sensor message IDs:
+enum sns_registry_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief A request to read data from the Registry database.
+  // Message: sns_registry_read_req
+  SNS_REGISTRY_MSGID_SNS_REGISTRY_READ_REQ = 512;
+  
+  // @brief A request to write data to the Registry database.
+  // Message: sns_registry_write_req
+  SNS_REGISTRY_MSGID_SNS_REGISTRY_WRITE_REQ = 513;
+
+  // @brief A read event from the Registry Sensor.
+  // Message: sns_registry_read_event
+  SNS_REGISTRY_MSGID_SNS_REGISTRY_READ_EVENT = 514;
+
+  // @brief A write event from the Registry Sensor.
+  // Message: sns_registry_write_event
+  SNS_REGISTRY_MSGID_SNS_REGISTRY_WRITE_EVENT = 768;
+}
+
+// @brief A message representing a registry group
+message sns_registry_data
+{
+  // @brief A Registry Item
+  message item
+  {
+    option (nanopb_msgopt).no_unions = true;
+
+    // @brief Item name (i.e. Only item-specific name, sans group name)
+    required string name = 1;
+    optional fixed32 version = 2;
+
+    // @brief An item may be one of a subgroup, string, floating point value,
+    // or integer value.
+    oneof data
+    {
+      sns_registry_data subgroup = 10;
+      string str = 11;
+      float flt = 12;
+      sfixed64 sint = 13;
+    }
+  }
+
+  // @brief List of items contained in this group.
+  repeated item items = 3;
+}
+
+// @brief The read request
+message sns_registry_read_req
+{
+  // @brief Full name of the item or group to be read
+  required string name = 1;
+}
+
+// @brief The read event
+message sns_registry_read_event
+{
+  // @brief Full name of the group which was read
+  required string name = 1;
+
+  // @brief If the requested registry group was not found, data is empty
+  required sns_registry_data data = 2;
+}
+
+// @brief The write request
+message sns_registry_write_req
+{
+  // @brief Full name of the group to be written
+  required string name = 1;
+
+  // @brief The registry data
+  required sns_registry_data data = 2;
+
+  // @brief Cookie for request/event pairing
+  optional int64 cookie = 3;
+}
+
+// @brief Registry write status
+enum sns_registry_write_status
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief The registry write was successful and the data was stored
+  SNS_REGISTRY_WRITE_STATUS_SUCCESS = 0;
+
+  // @brief An unspecified error has occurred; data may be lost
+  SNS_REGISTRY_WRITE_STATUS_ERROR_OTHER = 1;
+}
+
+// @brief The write event
+message sns_registry_write_event
+{
+  // @brief The Write Status
+  required sns_registry_write_status status = 1;
+
+  // @brief Echo cookie for request/event pairing
+  optional int64 cookie = 2;
+}

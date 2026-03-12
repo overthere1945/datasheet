@@ -1,0 +1,27 @@
+Source:qcom-sensors-api
+Section: libs
+Priority: optional
+Maintainer: Bhanu Vivek Matsa <bmasta@qti.qualcomm.com>
+Build-Depends: debhelper-compat (= 13), pkgconf, libglib2.0-dev, qcom-dspservices-headers-dev,
+ qcom-sensing-hub-dev, qcom-property-vault-dev, qcom-syslog-plumber-dev, 
+ qcom-sensors-utils-dev, qcom-fastrpc-dev, libprotobuf-dev, protobuf-compiler
+Standards-Version: 4.6.2
+Homepage: http://support.cdmatech.com
+
+Package: qcom-sensors-api
+Architecture: arm64
+Replaces: libsensors-ship-qti1
+Breaks: libsensors-ship-qti1
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ qcom-sensing-hub , qcom-sensors-utils , qcom-fastrpc1
+Description: Qualcomm Sensors-api APIs Library
+
+Package: qcom-sensors-api-dev
+Architecture: arm64
+Replaces: libsensors-ship-qti-dev
+Breaks: libsensors-ship-qti-dev
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ qcom-sensing-hub-dev, qcom-sensors-utils-dev, qcom-fastrpc-dev,
+ qcom-sensors-api (= ${binary:Version})
+Description: Qualcomm Sensors-api APIs Library

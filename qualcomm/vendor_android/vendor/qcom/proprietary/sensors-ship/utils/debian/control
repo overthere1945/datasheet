@@ -1,0 +1,23 @@
+Source:qcom-sensors-utils
+Section: libs
+Priority: optional
+Maintainer: Bhanu Vivek Matsa <bmasta@qti.qualcomm.com>
+Build-Depends: debhelper-compat (= 13), pkgconf, libglib2.0-dev, qcom-property-vault-dev
+Standards-Version: 4.6.2
+Homepage: http://support.cdmatech.com
+
+Package: qcom-sensors-utils
+Architecture: arm64
+Replaces: libsensors-ship-qti1
+Breaks: libsensors-ship-qti1
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Qualcomm Sensors-utils APIs Library
+
+Package: qcom-sensors-utils-dev
+Architecture: arm64
+Replaces: libsensors-ship-qti-dev
+Breaks: libsensors-ship-qti-dev
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ qcom-sensors-utils (= ${binary:Version})
+Description: Qualcomm Sensors-utils APIs Library

@@ -1,0 +1,38 @@
+cc_library_shared {
+    name: "libsnsutils",
+    owner: "qti",
+    proprietary: true,
+    defaults: [
+        "sns_wearable_target",
+    ],
+    srcs: [
+        "src/wakelock_utils.cpp",
+        "src/sensors_timer.cpp",
+        "src/sensors_ssr.cpp",
+        "src/sensors_log.cpp",
+        "src/sensors_json_parser.cpp",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wno-unused-parameter",
+        "-fexceptions",
+    ],
+    sanitize:{
+        integer_overflow: true,
+    },
+    local_include_dirs: ["./inc"],
+    export_include_dirs: ["./inc"],
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+    ],
+}
+
+cc_library_headers {
+    name: "libsensorutils_headers",
+    export_include_dirs: ["./inc"],
+    owner: "qti",
+    proprietary: true,
+}

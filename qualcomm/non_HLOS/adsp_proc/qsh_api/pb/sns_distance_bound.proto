@@ -1,0 +1,160 @@
+
+// @file sns_distance_bound.proto
+//
+// @brief Defines message types for the Distance Bound (DB) Sensor.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All rights reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details
+// Distance Bound (DB) algorithm tracks the distance covered in meters.
+// It expects, as part of its request, distance in meters. DB reports the client
+// when this distance is covered from the instant the request was received.
+// After a client sends a DB request for distance, it can query DB for
+// distance accumulated at any instant before the final breach occurs.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "distance_bound"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: 
+//    SNS_STD_SENSOR_STREAM_TYPE_SINGLE_OUTPUT
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_distance_bound.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_DISTANCE_BOUND_MSGID_SNS_SET_DISTANCE_BOUND is used to enable the 
+//   sensor
+// - SNS_DISTANCE_BOUND_MSGID_SNS_GET_DISTANCE_ACCUMULATED must be preceded by 
+//   SNS_DISTANCE_BOUND_MSGID_SNS_SET_DISTANCE_BOUND request
+//
+// ## Publishing Stream Events:
+// 1. sns_distance_bound_event message is associated with the 
+//    SNS_DISTANCE_BOUND_MSGID_SNS_DISTANCE_BOUND_EVENT message id and 
+//    corresponds to the SNS_DISTANCE_BOUND_MSGID_SNS_SET_DISTANCE_BOUND 
+//    request. This event will be raised after the breach occurs.
+// 2. sns_get_distance_accumulated_event is associated with 
+//    SNS_DISTANCE_BOUND_MSGID_SNS_GET_DISTANCE_ACCUMULATED_EVENT message id 
+//    and corresponds to the 
+//    SNS_DISTANCE_BOUND_MSGID_SNS_GET_DISTANCE_ACCUMULATED request.
+//    This event will be raised instantly upon receiving the above request, 
+//    reporting the distance accumulated since the SET_DISTANCE_BOUND request.
+//    NOTE:
+//    In following situation a SNS_STD_MSGID_SNS_STD_ERROR_EVENT will be sent
+//    with payload sns_std_error_event having the appropriate error code:
+//      1. In absence of any prior 
+//         SNS_DISTANCE_BOUND_MSGID_SNS_SET_DISTANCE_BOUND request, an error 
+//         event with error code SNS_STD_ERROR_FAILED will be raised.
+//      2. If a breach has already occurred for a prior
+//         SNS_DISTANCE_BOUND_MSGID_SNS_SET_DISTANCE_BOUND request, an error 
+//         event with error code  SNS_STD_ERROR_NOT_AVAILABLE will be raised.
+// 3. DB does not publish configuration events.
+
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+
+// @brief Message IDs for DB Sensor
+enum sns_distance_bound_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief 
+  // Uses message: sns_set_distance_bound
+  // Purpose:
+  // A distance bound request from the client
+
+  SNS_DISTANCE_BOUND_MSGID_SNS_SET_DISTANCE_BOUND = 516;
+
+  // @brief 
+  // Uses message: None
+  // Purpose:
+  // client can query the distance accumulated at a given instance
+  // before final breach occurs.
+  // Note: This message should be preceded by a
+  // SNS_DISTANCE_BOUND_MSGID_SNS_SET_DISTANCE_BOUND request msg
+
+  SNS_DISTANCE_BOUND_MSGID_SNS_GET_DISTANCE_ACCUMULATED = 517;
+  // @brief 
+  // Uses message: sns_distance_bound_event
+  // Purpose:
+  // This event corresponds to request:
+  // SNS_DISTANCE_BOUND_MSGID_SNS_SET_DISTANCE_BOUND
+  // This event is raised  when the breach occurs.
+
+  SNS_DISTANCE_BOUND_MSGID_SNS_DISTANCE_BOUND_EVENT = 772;
+
+  // @brief 
+  // Uses message: sns_get_distance_accumulated_event
+  // Purpose:
+  // This event corresponds to request:
+  // SNS_DISTANCE_BOUND_MSGID_SNS_GET_DISTANCE_ACCUMULATED
+  // This event reports the distance accumulated at a given
+  // instance when the request is received
+
+  SNS_DISTANCE_BOUND_MSGID_SNS_GET_DISTANCE_ACCUMULATED_EVENT = 773;
+}
+
+
+// @brief Gives the state which the algorithm is capable
+// of detecting.
+enum sns_distance_bound_motion_state
+{
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_DB_MS_UNKNOWN     = 0;
+  SNS_DB_MS_STATIONARY  = 1;
+  SNS_DB_MS_MOVE        = 2;
+  SNS_DB_MS_FIDDLE      = 3;
+  SNS_DB_MS_PEDESTRIAN  = 4;
+  SNS_DB_MS_VEHICLE     = 5;
+  SNS_DB_MS_WALK        = 6;
+  SNS_DB_MS_RUN         = 7;
+  SNS_DB_MS_BIKE        = 8;
+  SNS_DB_MS_MAX         = 9;
+}
+
+// @brief Request
+// Request message associated with 
+// SNS_DISTANCE_BOUND_MSGID_SNS_SET_DISTANCE_BOUND.
+// This message will result in atmost one sns_distance_bound_event when
+// the requested distance is covered.
+// If client resends a fresh sns_set_distance_bound before the older is serviced
+// the older request will be lost and new distance will be calculated from that
+// instant.
+message sns_set_distance_bound
+{
+  // @brief 
+  // The distance bound in meters. When the distance traveled exceeds this,
+  // an event is sent to the requestor.
+  required float distance_bound = 1;
+
+  // @brief 
+  // Speeds associated with different motion states.
+  // If client does not send any motion state speed,
+  // default values will be taken for that motion state.
+  message speeds {
+    required sns_distance_bound_motion_state state = 1;
+    required  float speed = 2;
+  }
+
+  repeated speeds speed_bound = 2;
+}
+
+// @brief 
+// Event message for distance bound request once breach occurs.
+message sns_distance_bound_event
+{
+  // @brief 
+  // Distance accumulated in meters since the last sns_set_distance_bound.
+  required float distance_accumulated = 1;
+}
+
+// @brief Event message for an accumulated distance request
+message sns_get_distance_accumulated_event
+{
+  // @brief
+  // Distance accumulated in meters since the last sns_set_distance_bound.
+  required float distance_accumulated = 1;
+}
+
+

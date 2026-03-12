@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- --with-glib --with-sensinghub-api=/usr/include
+override_dh_auto_install:
+	dh_auto_install
+	rm $(CURDIR)/debian/tmp/usr/lib/${DEB_HOST_MULTIARCH}/*.la
+	rm $(CURDIR)/debian/tmp/etc/sensors/proto/*

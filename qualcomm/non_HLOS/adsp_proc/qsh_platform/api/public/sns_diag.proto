@@ -1,0 +1,540 @@
+// @file sns_diag.proto
+//
+// @brief Defines log messages used by the sensors diag service
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All Rights Reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details Use to capture diagnostic data for multiple modules.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std.proto";
+import "sns_std_sensor.proto";
+import "sns_client.proto";
+import "sns_client_qsocket.proto";
+
+// @brief Batch Sample Type.
+enum sns_diag_batch_sample_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief This is the only sample in the batch.
+  SNS_DIAG_BATCH_SAMPLE_TYPE_ONLY = 0;
+
+  // @brief This is the first sample of the batch.
+  SNS_DIAG_BATCH_SAMPLE_TYPE_FIRST = 1;
+
+  // @brief This is an intermediate sample of the batch.
+  SNS_DIAG_BATCH_SAMPLE_TYPE_INTERMEDIATE = 2;
+
+  // @brief This is the last sample of the batch.
+  SNS_DIAG_BATCH_SAMPLE_TYPE_LAST = 3;
+}
+
+// @brief Sensor Interrupts.
+enum sns_diag_interrupt
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Interrupt caused by detection of a threshold being
+  // exceeded.
+  SNS_DIAG_INTERRUPT_THRESHOLD = 0;
+
+  // @brief Interrupt caused by detection of movement of the device.
+  SNS_DIAG_INTERRUPT_MOTION    = 1;
+
+  // @brief Interrupt caused by detection of tilting of the device.
+  SNS_DIAG_INTERRUPT_TILT      = 2;
+
+  // @brief Interrupt caused by detection of free fall.
+  SNS_DIAG_INTERRUPT_FREE_FALL = 3;
+
+  // @brief Interrupt caused by detection of double-tap.
+  SNS_DIAG_INTERRUPT_DOUBLE_TAP= 4;
+
+  // @brief Interrupt caused by detection of acceleration shock.
+  SNS_DIAG_INTERRUPT_SHOCK     = 5;
+
+  // @brief Interrupt caused by CCD AMD.
+  SNS_DIAG_INTERRUPT_CCD_AMD   = 6;
+
+  // @brief Interrupt caused by CCD WALK.
+  SNS_DIAG_INTERRUPT_CCD_WALK  = 7;
+
+  // @brief Interrupt caused by CCD TILT.
+  SNS_DIAG_INTERRUPT_CCD_TILT  = 8;
+
+  // @brief Interrupt caused by CCD TE0.
+  SNS_DIAG_INTERRUPT_CCD_TE0   = 9;
+
+  // @brief Interrupt caused by CCD TE1.
+  SNS_DIAG_INTERRUPT_CCD_TE1   = 10;
+
+  // @brief Interrupt caused by CCD TE2.
+  SNS_DIAG_INTERRUPT_CCD_TE2   = 11;
+
+  // @brief Interrupt caused by CCD TE3.
+  SNS_DIAG_INTERRUPT_CCD_TE3   = 12;
+
+  // @brief Interrupt caused by CCD CD0.
+  SNS_DIAG_INTERRUPT_CCD_CD0   = 13;
+
+  // @brief Interrupt caused by CCD CD1.
+  SNS_DIAG_INTERRUPT_CCD_CD1   = 14;
+
+  // @brief Interrupt caused by CCD CD2.
+  SNS_DIAG_INTERRUPT_CCD_CD2   = 15;
+
+  // @brief Interrupt caused by CCD CD3.
+  SNS_DIAG_INTERRUPT_CCD_CD3   = 16;
+
+  // @brief Interrupt caused by CCD GBE.
+  SNS_DIAG_INTERRUPT_CCD_GBE1  = 17;
+
+  // @brief Interrupt caused by CCD GBE.
+  SNS_DIAG_INTERRUPT_CCD_GBE2  = 18;
+
+  // @brief Interrupt caused by CCD OGV0.
+  SNS_DIAG_INTERRUPT_CCD_OGV0  = 19;
+
+  // @brief Interrupt caused by CCD OGV1.
+  SNS_DIAG_INTERRUPT_CCD_OGV1  = 20;
+
+  // @brief Interrupt caused by CCD OGV2.
+  SNS_DIAG_INTERRUPT_CCD_OGV2  = 21;
+
+  // @brief Interrupt caused by CCD OGV3.
+  SNS_DIAG_INTERRUPT_CCD_OGV3  = 22;
+
+  // @brief Interrupt caused by CCD TE4.
+  SNS_DIAG_INTERRUPT_CCD_TE4   = 23;
+
+  // @brief Interrupt caused by CCD primary accel ppe.
+  SNS_DIAG_INTERRUPT_CCD_PPE   = 24;
+
+  // @brief Interrupt caused by CCD gyro ppe.
+  SNS_DIAG_INTERRUPT_CCD_PPE1  = 25;
+
+  // @brief Interrupt caused by CCD secondary accel ppe.
+  SNS_DIAG_INTERRUPT_CCD_PPE2  = 26;
+}
+
+// @brief Opaque Payload
+// This message defines the fields used to log an undefined payload.
+message sns_diag_opaque_payload
+{
+  required bytes payload = 1;
+}
+
+// @brief Batch Sample
+// This message defines the fields used to log batched data.
+message sns_diag_batch_sample
+{
+  // @brief Indicates if the sample is the first, intermediate, last or only
+  // sample of a batch.
+  required sns_diag_batch_sample_type sample_type = 1 [default = SNS_DIAG_BATCH_SAMPLE_TYPE_ONLY];
+
+  // @brief Timestamp of the sensor state data sample.
+  required fixed64 timestamp = 2;
+
+  // @brief Sensor state data sample.
+  repeated float sample = 3;
+
+  // @brief Data status.
+  required sns_std_sensor_sample_status status = 4 [default = SNS_STD_SENSOR_SAMPLE_STATUS_UNRELIABLE];
+}
+
+// @brief Sensor State Hardware Interrupt Log Packet.
+// This message defines the fields used to log sensor state information
+// pertaining to hardware interrupts
+// This message is used as the payload field of sns_diag_sensor_log.
+message sns_diag_sensor_state_interrupt
+{
+  // @brief Type of sensor hardware interrupt.
+  required sns_diag_interrupt interrupt = 1;
+
+  // @brief Timestamp when the interrupt occurred.
+  required fixed64 timestamp = 2;
+}
+
+// @brief Sensor State Raw.
+// This message defines the fields used to log sensor state information
+// pertaining to raw uncalibrated physical sensor data.
+// This message is used as the payload field of sns_diag_sensor_log.
+message sns_diag_sensor_state_raw
+{
+  repeated sns_diag_batch_sample sample = 1;
+}
+
+// @brief Client API Response Message.
+message sns_diag_client_resp_msg
+{
+  // @brief The error response sent to the client.
+  required sns_std_error error = 1;
+}
+
+// @brief Client API log packet
+// This message defines the fields to log all
+// Request, Response and Event messages at the Client API
+// This message is used as the payload field of sns_diag_sensor_log.
+message sns_diag_client_api_log
+{
+  // @brief Client ID identifies the client connection.
+  required fixed64 client_id = 1;
+
+  // @brief Data type of the source sensor.
+  required string src_sensor_type = 2;
+
+  // @brief The Client API log packet payload.
+  oneof client_api_log_payload
+  {
+    // @brief Client API Request message as defined in sns_client.proto.
+    sns_client_request_msg request_payload = 100;
+
+    // @brief Client API Event message as defined in sns_client.proto.
+    sns_client_event_msg event_payload = 101;
+
+    // @brief Client API Response message as defined in sns_diag.proto.
+    sns_diag_client_resp_msg resp_payload = 102;
+
+    // @brief QCM client API message
+    sns_client_qsocket_msg qcm_payload = 103;
+  }
+}
+
+// @brief Sensor API log packet.
+// This message defines the fields to log all Request and
+// Event messages at the Sensor API.
+// This message is used as the payload field of sns_diag_sensor_log.
+message sns_diag_sensor_api_log
+{
+  // @brief The message id of the message being logged.
+  required fixed32 message_id = 1;
+
+  // @brief Timestamp associated with this message.
+  required fixed64 timestamp = 2;
+
+  // @brief Data stream associated with this message.
+  optional fixed64 stream_id = 3;
+
+  // @brief The Sensor API log packet payload.
+  oneof sensor_api_log_payload
+  {
+    // @brief Sensor API Event message containing sensor specific event message
+    // as defined in the sensor's proto api file.
+    sns_diag_opaque_payload opaque_payload = 100;
+
+    // @brief Sensor API Request message as defined in sns_std.proto.
+    sns_std_request request_payload = 101;
+  }
+}
+
+// @brief Sensor log packet
+// This message defines the fields to log all sensor specific
+// messages. This includes Sensor API messages, Client API messages,
+// HW Interrupt messages, Sensor State messages.
+message sns_diag_sensor_log
+{
+  // @brief Log ID for the log packet.
+  required fixed32 log_id = 1;
+
+  // @brief Timestamp when log packet.was generated.
+  required fixed64 timestamp = 2;
+
+  // @brief Sensor UID for the log packet.
+  required sns_std_suid suid = 3;
+
+  // @brief Data type provided by the Sensor UID.
+  required string sensor_type = 4;
+
+  // @brief In case of client_api payload :
+  // Instance ID of the Client Manager Sensor to which this message was passed 
+  // to or obtained from In case of opaque, sensor_api and sensor_state 
+  // payloads: Instance ID of the Sensor to which this message was passed to or
+  // obtained from.
+  required fixed64 instance_id = 5;
+
+  // @brief The log packet payload.
+  oneof sensor_log_payload
+  {
+    // @brief Sensor specific Sensor State Algo message.
+    sns_diag_opaque_payload opaque_payload = 100;
+
+    // @brief Sensor API message.
+    sns_diag_sensor_api_log sensor_api_payload = 101;
+
+    // @brief Client API message.
+    sns_diag_client_api_log client_api_payload = 102;
+
+    // @brief Sensor State Raw message.
+    sns_diag_sensor_state_raw sensor_state_raw_payload = 103;
+
+    // @brief Sensor State Hardware Interrupt message.
+    sns_diag_sensor_state_interrupt sensor_state_interrupt_payload = 104;
+  }
+}
+
+// @brief Sensor Instance Mapping Log Packet.
+// This message defines the fields used to log sensor instance mapping
+// information. This message is used as the payload field of sns_diag_fw_log.
+message sns_diag_instance_map_log
+{
+  // @brief The instance id of the source sensor instance.
+  required fixed64 src_instance_id = 1;
+
+  // @brief Array of destination Sensor Instance IDs or Sensor IDs that the
+  // source sensor instance is feeding to.
+  // If no destination instance ids are specified it signifies
+  // deletion of the source instance.
+  repeated fixed64 dest_instance_id = 2;
+
+  // @brief Array of data stream ids that the
+  // source sensor instance is feeding to.
+  repeated fixed64 stream_id = 3;
+}
+
+// @brief Island mode states.
+enum sns_diag_island_state
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief In Island mode.
+  SNS_DIAG_ISLAND_STATE_IN_ISLAND_MODE = 0;
+
+  // @brief Not in Island Mode.
+  SNS_DIAG_ISLAND_STATE_NOT_IN_ISLAND_MODE = 1;
+
+  // @brief Island mode disabled.
+  SNS_DIAG_ISLAND_STATE_ISLAND_DISABLED = 2;
+}
+
+// @brief Island mode transition Log Packet
+// This message defines the fields used to log
+// transitions into and out of island mode.
+//
+// This log packet is generated each time the system transitions into or out
+// of island mode or when island mode is disabled or when triggered by
+// a request to the diag sensor.
+//
+// This message is used as the payload field of sns_diag_fw_log
+// This message is legacy. It is replaced with 'message sns_diag_island_log'
+message sns_diag_island_transition_log
+{
+  // @brief Timestamp of the transition
+  // When log packet is triggered, this timestamp will retain
+  // the timestamp when the current state became effective.
+  required fixed64 timestamp = 1;
+
+  // @brief Island state after transition is completed.
+  required sns_diag_island_state island_state = 2;
+
+  // @brief User defined cookie
+  // Used by test scripts to identify logs triggered
+  // by messages sent to the SSC.
+  optional fixed64 cookie = 3;
+  
+  // @brief Total time system spent in island since device boot(micro seconds).
+  optional fixed64 total_island_time = 4;
+}
+
+// @brief This message is used to log system island states
+message sns_diag_island_tx_log
+{
+  // Island state after transition is completed
+  optional sns_diag_island_state island_state = 1;
+
+  // User defined cookie
+  // Used by test scripts to identify logs triggered
+  // by messages sent to the SSC
+  optional fixed64 cookie = 2;
+  
+  // Total time system spent in island since device boot(micro seconds)
+  optional fixed64 total_island_time = 3;
+}
+
+// @brief This message is used to log sensors' internal island states
+message sns_diag_island_debug_log
+{
+  // previous state of island transition
+  optional fixed32 previous_island_state = 1;
+
+  // current state of island transition
+  optional fixed32 current_island_state = 2;
+
+  // caller symbols causing island transition
+  repeated fixed32 callers = 3;
+}
+
+// @brief This message is used to log the island transitions.
+// The transitions includes both - system transitions into or out
+// of island mode or when island mode is disabled or when triggered by
+// a request to the diag sensor as well as debug transitions that capture 
+// the internal island states
+//
+// This message is used as the payload field of sns_diag_fw_log
+message sns_diag_island_log
+{
+  // timestamp of island transition or debug transition
+  optional fixed64 timestamp = 1;
+
+  oneof sns_diag_island_log_payloads
+  {
+    sns_diag_island_tx_log log_payload = 2;
+
+    sns_diag_island_debug_log dbg_log_payload = 3;
+  }
+}
+
+
+// @brief Island exit vote Log Packet
+// This message defines the fields used to log vote for island mode exits.
+//
+// This log packet is generated at each call to island_exit().
+message sns_diag_island_exit_vote_log
+{
+  // @brief Timestamp.
+  required fixed64 timestamp = 1;
+
+  // @brief SUID of the Sensor responsible for the vote.
+  optional sns_std_suid sensor = 2;
+}
+
+// @brief Heap IDs.
+enum sns_diag_heap_id
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Primary Heap.
+  SNS_DIAG_HEAP_ID_HEAP_MAIN = 0;
+
+  // @brief Island Heap.
+  SNS_DIAG_HEAP_ID_HEAP_ISLAND = 1;
+
+  // @brief PRAM Heap.
+  SNS_DIAG_HEAP_ID_HEAP_PRAM = 2;
+
+  // @brief EVENT Heap.
+  SNS_DIAG_HEAP_ID_HEAP_EVENT = 3;
+
+  // @brief BATCH Heap.
+  SNS_DIAG_HEAP_ID_HEAP_BATCH = 4;
+
+  // @brief Event buffer.
+  SNS_DIAG_HEAP_ID_EVENT_BUFFER = 100;
+}
+
+// @brief Memory status Log Packet
+// This message defines the fields used to log the memory utilization
+// This log packet is generated when a request is sent to the diag sensor.
+message sns_diag_mem_utilization_log
+{
+  // @brief Timestamp.
+  required fixed64 timestamp = 1;
+
+  // @brief Heap ID.
+  required sns_diag_heap_id heap_id = 2;
+
+  // @brief Total Memory.
+  required fixed32 total_memory = 3;
+
+  // @brief Used Memory.
+  required fixed32 used_memory = 4;
+
+  // @brief User defined cookie.
+  // Used by test scripts to identify logs triggered
+  // by messages sent to the SSC.
+  optional fixed64 cookie = 5;
+}
+
+// @brief Event Service status Log Packet.
+// This message defines the fields used to log the memory utilization and
+// other statistics from the Event Service.
+// Used only for SW debug; *not guaranteed to be backward compatible*
+// This log packet is generated when a request is sent to the diag sensor.
+message sns_diag_event_service_log
+{
+  // @brief Timestamp
+  required fixed64 timestamp = 1;
+
+  // @brief User defined cookie.
+  // Used by test scripts to identify logs triggered
+  // by messages sent to the SSC
+  optional fixed64 cookie = 2;
+
+  message heap_stats
+  {
+    enum sns_event_service_heap_id
+    {
+      SNS_EVENT_SERVICE_HEAP_ID_ISLAND = 0;
+      SNS_EVENT_SERVICE_HEAP_ID_MAIN = 1;
+    }
+    // @brief Heap ID.
+    required sns_event_service_heap_id heap_id = 1;
+
+    // @brief Total memory available in heap (in blocks).
+    required fixed32 total_memory = 2;
+
+    // @brief Current memory consumption (in blocks).
+    required fixed32 used_memory = 3;
+
+    // @brief Maximum memory consumption since last log packet (in blocks).
+    required fixed32 max_memory = 4;
+
+    // @brief Total clusters available.
+    required fixed32 total_clusters = 5;
+
+    // @brief Current number of clusters in use.
+    required fixed32 used_clusters = 6;
+
+    // @brief Maximum in-use clusters since last log packet.
+    required fixed32 max_clusters = 7;
+
+    // @brief Number of allocation failures since the last DIAG log packet
+    // If Island will result in island exit; else causes dropped samples.
+    required fixed32 alloc_failures = 8;
+
+    // @brief Largest event allocation since the last DIAG log packet 
+    // (in bytes).
+    required fixed32 max_size = 9;
+  }
+  repeated heap_stats stats = 3;
+}
+
+// @brief Framework log packet
+// This message defines the fields to log all framework messages. This
+// includes memory, island, instance mapping messages.
+message sns_diag_fw_log
+{
+  // @brief Log ID for the log packet.
+  required fixed32 log_id = 1;
+
+  // @brief Timestamp when log packet.was generated.
+  required fixed64 timestamp = 2;
+
+  // @brief The log packet payload.
+  oneof fw_log_payload
+  {
+    // @brief Sensor Instance Map message.
+    sns_diag_instance_map_log instance_map_payload = 100;
+
+    // @brief Sensor Island Mode (Legacy)
+    sns_diag_island_transition_log island_mode_payload = 101;
+
+    // @brief Sensors Island Exit vote.
+    // NOT SUPPORTED YET.
+    sns_diag_island_exit_vote_log island_exit_vote_payload = 102;
+
+    // @brief Sensors Memory Utilization.
+    sns_diag_mem_utilization_log memory_utilization_payload = 103;
+
+    // @brief Event Service status log.
+    sns_diag_event_service_log event_service_payload = 104;
+    
+    // Island related logs
+    sns_diag_island_log island_payload = 105;
+  }
+}
+

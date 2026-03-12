@@ -1,0 +1,50 @@
+soong_config_module_type {
+    name: "sns_cc_defaults",
+    module_type: "cc_defaults",
+    config_namespace: "snsconfig",
+    bool_variables: [
+        "isWearableTarget",
+    ],
+    properties: ["shared_libs", "cflags"],
+}
+
+cc_defaults {
+    name: "sns_proto_lib_name-lite",
+    shared_libs: [
+        "libprotobuf-cpp-lite",
+    ],
+}
+
+sns_cc_defaults {
+    name: "sns_proto_lib_name-full",
+    shared_libs: [
+       "libprotobuf-cpp-full",
+     ],
+}
+
+cc_defaults {
+    name: "sns_api_dir",
+    proto: {
+        include_dirs: ["vendor/qcom/proprietary/sensors-ship/qsh"],
+    },
+}
+
+cc_defaults {
+    name: "sns_direct_channel",
+    shared_libs: [
+        "libsns_direct_channel_stub",
+        "libcdsprpc",
+    ],
+}
+
+sns_cc_defaults {
+    name: "sns_wearable_target",
+    soong_config_variables: {
+        isWearableTarget: {
+            cflags: [
+                "-DSNS_WEARABLES_TARGET",
+                "-DSNS_TARGET_SUPPORTS_NO_HIFI",
+            ],
+        },
+    },
+}

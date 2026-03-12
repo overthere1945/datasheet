@@ -1,0 +1,5 @@
+qcom-sensors-utils (1.0.0) noble; urgency=low
+
+  * Initial release.
+
+ -- Bhanu Vivek Matsa <bmasta@qti.qualcomm.com>  Tue, 17 Jun 2025 09:27:47 +0000

@@ -1,0 +1,51 @@
+// @file sns_rmd.proto
+//
+// @brief Defines message types for the Absolute Motion Detector (RMD) Sensor.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All rights reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details Absolute Motion Detector calculates motion and stationary states. RMD will initially 
+// start in an unknown state, and later transition to motion or stationary.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "rmd"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_rmd.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the sensor
+//
+// ## Publishing Stream Events:
+// - The sns_rmd_event message is used to publish updated state
+// - RMD does not publish configuration events
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+
+// @brief Message IDs for RMD Sensor
+enum sns_rmd_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_RMD_MSGID_SNS_RMD_EVENT = 772;
+}
+
+// @brief RMD Event Types
+enum sns_rmd_event_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_RMD_EVENT_TYPE_UNKNOWN          = 0;
+  SNS_RMD_EVENT_TYPE_STATIONARY       = 1;
+  SNS_RMD_EVENT_TYPE_MOTION           = 2;
+}
+
+// @brief RMD motion event
+message sns_rmd_event
+{
+  // @brief RMD motion state
+  required sns_rmd_event_type state = 1 [default = SNS_RMD_EVENT_TYPE_UNKNOWN];
+}

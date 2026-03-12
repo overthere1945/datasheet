@@ -1,0 +1,11 @@
+<resampler_sensor_list>
+  <description>
+        List of 'data_type' and 'count' for the sensors that Resampler should support.
+        'data_type' must match the SNS_STD_SENSOR_ATTRID_TYPE string of the sensor.
+        'count' is the number of sensors on the platform supporting the data type.
+    </description>
+    <sensor_info>
+        <data_type>electro_neuro_graph</data_type>
+        <count>1</count>
+    </sensor_info>
+</resampler_sensor_list>

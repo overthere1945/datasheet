@@ -1,0 +1,202 @@
+// @file sns_async_com_port.proto
+//
+// @brief Defines standard message types for the Async Com Port.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All Rights Reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details Asynchronous Com Port
+//
+// The Asynchronous Com Port provides access to buses like I2C, I3C, SPI and 
+// others. A complete list of all buses available in the 
+// sns_async_com_port_bus_type enum.
+//
+// The Asynchronous Com Port can perform read and write operations on these 
+// buses asynchronously. This is the recommended way to perform large bus reads
+// (example: reading a large FIFO buffer). This file describes the use of the 
+// async com port (ascp) API.
+//
+// First, the client must configure the port using the 
+// sns_async_com_port_config message.
+//
+// To perform one or more read or write operations, the client should send the
+// sns_async_com_port_vector_rw message.
+//
+// A single sns_async_com_port_vector_rw message can contain multiple
+// sns_async_com_port_vector messages, the async com port will efficiently 
+// perform all the transactions that are part of the parent 
+// sns_async_com_port_vector_rw message. The results of the transaction will be
+// sent as an sns_async_com_port_vector_rw event.
+//
+// The async com port will internally manage efficiently opening and closing 
+// the bus power lines and clock settings. The async com port can safely be 
+// used along with the synchronous com port service.
+//
+// To help with encoding and decoding the sns_async_com_port_vector_rw 
+// messages, utility functions are provided in sns_async_com_port_pb_utils.h
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "async_com_port"
+// 2. SNS_STD_SENSOR_ATTRID_API "sns_async_com_port.proto"
+// 
+// ## Processing Stream Requests:
+// 1. SNS_ASYNC_COM_PORT_MSGID_SNS_ASYNC_COM_PORT_CONFIG is used to enable 
+// the sensor.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std.proto";
+
+// @brief The operation to be performed by the async com port.
+enum sns_async_com_port_operation_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Perform the read option by the async com port.
+  SNS_ASYNC_COM_PORT_OPERATION_TYPE_READ = 0;
+  // @brief Perform the write option by the async com port.
+  SNS_ASYNC_COM_PORT_OPERATION_TYPE_WRITE = 1;
+}
+
+// @brief The bus type to be accessed by the async com port.
+enum sns_async_com_port_bus_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief I2C bus:
+  SNS_ASYNC_COM_PORT_BUS_TYPE_I2C            = 0;
+
+  // @brief SPI bus:
+  SNS_ASYNC_COM_PORT_BUS_TYPE_SPI            = 1;
+
+  // @brief I3C bus, standard data rate:
+  SNS_ASYNC_COM_PORT_BUS_TYPE_I3C_SDR        = 3;
+
+  // @brief I3C bus, double data rate:
+  SNS_ASYNC_COM_PORT_BUS_TYPE_I3C_HDR_DDR    = 4;
+
+  // @brief I3C bus, legacy I2C device attached to I3C bus:
+  SNS_ASYNC_COM_PORT_BUS_TYPE_I3C_I2C_LEGACY = 5;
+}
+
+// @brief The registry address type to be used by async com port.
+enum sns_async_com_port_reg_addr_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief 8 bit registry address type to be used by async com port.
+  SNS_ASYNC_COM_PORT_REG_ADDR_TYPE_8_BIT = 0;
+  // @brief 16 bit registry address type to be used by async com port.
+  SNS_ASYNC_COM_PORT_REG_ADDR_TYPE_16_BIT = 1;
+  // @brief 32 bit registry address type to be used by async com port.
+  SNS_ASYNC_COM_PORT_REG_ADDR_TYPE_32_BIT = 2;
+}
+
+enum sns_acp_qup_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_ACP_SSC_QUP = 0;
+  SNS_ACP_TOP_QUP = 1;
+}
+
+// @brief Configuration message.
+message sns_async_com_port_config
+{
+  // @brief The bus type.
+  required sns_async_com_port_bus_type bus_type = 1;
+
+  // @brief Slave Address for I2C.
+  // Dynamic slave address for I3C.
+  // Chip Select for SPI.
+  required fixed32 slave_control = 2;
+
+  // @brief Register address type for the slave.
+  required sns_async_com_port_reg_addr_type reg_addr_type = 3;
+
+  // @brief Minimum bus clock supported by slave in kHz.
+  required fixed32 min_bus_speed_kHz = 4;
+
+  // @brief Maximum bus clock supported by slave in kHz.
+  required fixed32 max_bus_speed_kHz = 5;
+
+  // @brief Platform bus instance number (BLSP number).
+  required fixed32 bus_instance = 6;
+
+  // @brief QUP instance.
+  optional fixed32 qup_instance = 7;
+  
+  // @brief QUP_type whether SSC or top level.
+  optional sns_acp_qup_type qup_type = 8;
+
+  // @brief Manufacturer ID of I3C slave.
+  optional uint32 manufacturer_id = 9;
+
+  // @brief Provisional ID of I3C slave.
+  optional uint32 provisional_id = 10;
+
+}
+
+// @brief A single read or write operation.
+message sns_async_com_port_vector
+{
+  // @brief Read or write operation
+  required sns_async_com_port_operation_type operation = 1;
+
+  // @brief Register address
+  required fixed32 reg_addr = 2;
+
+
+  // @brief Number of bytes to read or write.
+  // The async com port will ignore this field for a write
+  // operation and use the size of the buffer present in the message.
+  //
+  // For events generated by the async com port, this field will always match 
+  // the size of the buffer when it is present.
+  optional fixed32 num_bytes = 3;
+
+  // @brief Buffer
+  // The async com port will ignore this field in a request for a read 
+  // operation.
+  optional bytes buffer = 4;
+}
+
+
+// @brief A collection of read and write operations.
+message sns_async_com_port_vector_rw
+{
+  // @brief Number of operations.
+  required fixed32 num_vectors = 1;
+
+  // @brief Read/write operations.
+  repeated sns_async_com_port_vector vectors = 2;
+}
+
+// @brief Notifies the client of an error during a transaction.
+message sns_async_com_port_error
+{
+  // @brief Register address.
+  required fixed32 reg_addr = 1;
+
+  // @brief Number of bytes that was to be read/written.
+  required fixed32 num_bytes = 2;
+
+  // @brief Error code.
+  required sns_std_error error_code = 3;
+}
+
+
+// @brief Async com port Message IDs
+enum sns_async_com_port_msgid
+{
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_ASYNC_COM_PORT_MSGID_SNS_ASYNC_COM_PORT_CONFIG = 512;
+  SNS_ASYNC_COM_PORT_MSGID_SNS_ASYNC_COM_PORT_VECTOR_RW = 1024;
+  SNS_ASYNC_COM_PORT_MSGID_SNS_ASYNC_COM_PORT_ERROR = 1025;
+  SNS_ASYNC_COM_PORT_MSGID_SNS_ASYNC_COM_PORT_REG = 1026;
+}
+
+

@@ -1,0 +1,295 @@
+cc_library_shared {
+    name: "libsensinghubapi-prop",
+    defaults: [
+        "qshApiDirPath",
+    ],
+    rtti: false,
+    srcs: [
+        "sns_tilt_to_wake.proto",
+        "sns_heart_beat.proto",
+        "sns_wrist_tilt_gesture.proto",
+        "sns_gyro_rot_matrix.proto",
+        "sns_step_detect.proto",
+        "sns_registry.proto",
+        "sns_da_test.proto",
+        "sns_dpc.proto",
+        "sns_pose_6dof.proto",
+        "sns_ppg.proto",
+        "sns_heart_rate.proto",
+        "sns_accel_cal.proto",
+        "sns_thermopile.proto",
+        "sns_rgb.proto",
+        "sns_ultra_violet.proto",
+        "sns_offbody_detect.proto",
+        "sns_aont.proto",
+        "sns_diag.proto",
+        "sns_diag_sensor.proto",
+        "sns_fmv.proto",
+        "sns_activity_recognition.proto",
+        "sns_client_sensor.proto",
+        "sns_ccd_gesture.proto",
+        "sns_delta_angle.proto",
+        "sns_client_glink.proto",
+        "sns_electro_neuro_graph.proto",
+        "sns_client_batch.proto",
+        "sns_time.proto",
+        "sns_skin_temperature.proto"
+    ],
+    local_include_dirs: ["./"],
+    cppflags: ["-DGOOGLE_PROTOBUF_NO_RTTI"],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wno-unused-parameter",
+        "-fexceptions",
+    ],
+    proto: {
+        type: "lite",
+        canonical_path_from_root: false,
+        export_proto_headers: true,
+        local_include_dirs : ["./"],
+    },
+    shared_libs: [
+        "libcutils",
+        "libutils",
+        "libsensinghubapi",
+    ],
+    sanitize:{
+        integer_overflow: true,
+    },
+    owner: "qti",
+    vendor: true,
+}
+
+prebuilt_etc {
+    name: "sns_accel_cal.proto",
+    src: "sns_accel_cal.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_activity_recognition.proto",
+    src: "sns_activity_recognition.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_aont.proto",
+    src: "sns_aont.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_ccd_gesture.proto",
+    src: "sns_ccd_gesture.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_da_test.proto",
+    src: "sns_da_test.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_delta_angle.proto",
+    src: "sns_delta_angle.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_diag.proto",
+    src: "sns_diag.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_diag_sensor.proto",
+    src: "sns_diag_sensor.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_dpc.proto",
+    src: "sns_dpc.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_fmv.proto",
+    src: "sns_fmv.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_gyro_rot_matrix.proto",
+    src: "sns_gyro_rot_matrix.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_heart_beat.proto",
+    src: "sns_heart_beat.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_heart_rate.proto",
+    src: "sns_heart_rate.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_offbody_detect.proto",
+    src: "sns_offbody_detect.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_pose_6dof.proto",
+    src: "sns_pose_6dof.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_ppg.proto",
+    src: "sns_ppg.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_registry.proto",
+    src: "sns_registry.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_rgb.proto",
+    src: "sns_rgb.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_step_detect.proto",
+    src: "sns_step_detect.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_thermopile.proto",
+    src: "sns_thermopile.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_tilt_to_wake.proto",
+    src: "sns_tilt_to_wake.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_ultra_violet.proto",
+    src: "sns_ultra_violet.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_wrist_tilt_gesture.proto",
+    src: "sns_wrist_tilt_gesture.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_client_glink.proto",
+    src: "sns_client_glink.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_electro_neuro_graph.proto",
+    src: "sns_electro_neuro_graph.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_client_sensor.proto",
+    src: "sns_client_sensor.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_client_batch.proto",
+    src: "sns_client_batch.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_time.proto",
+    src: "sns_time.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
+prebuilt_etc {
+    name: "sns_skin_temperature.proto",
+    src: "sns_skin_temperature.proto",
+    sub_dir: "sensors/proto",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}

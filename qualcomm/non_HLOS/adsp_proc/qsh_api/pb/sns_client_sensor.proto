@@ -1,0 +1,114 @@
+// @file sns_client_sensor.proto
+//
+// @brief Defines API for the Client Sensor 
+//
+// @copyright 
+// Copyright (c) 2022, 2024 Qualcomm Technologies, Inc.
+// All Rights Reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details The Client Sensor is used to manage multiple concurrent client
+// requests for a single sensor on a single connection.
+//
+// ## Attributes:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "client_sensor"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+//
+// ## Processing Stream Requests:
+// 1. The Client Sensor handles the sns_client_sensor_config as the
+//    initial message from all clients. This message associates a single SUID
+//    with the Client Sensor.
+//    a. Only one SUID may be configured on a connection at one time. This
+//       SUID configuration persists with the Client Sensor until the connection
+//       with the Client Sensor is removed. Any attempts to reconfigure is
+//       rejected with an error event.
+// 2. The Client Sensor handles the sns_client_sensor_enable message in one of
+//    two ways:
+//    a. If this is the first message with the associated client_id, a new
+//       connection is made to the configured sensor and the request_payload
+//       and request_msg_id is forwarded to the configured sensor. The Client
+//       Sensor maintains an internal association between the provided client_id
+//       and the newly formed connection.
+//    b. If an initial message has already been sent and a connection to the
+//       configured sensor already established, the client sensor will forward
+//       the request_payload and request_msg_id on the existing connection to
+//       the configured sensor.
+// 3. The Client Sensor handles the sns_client_sensor_disable message by closing
+//    the associated connection to the configured sensor, and removing the
+//    internal association between the client_id and the closed connection.
+//
+// ## Publishing Stream Events:
+// 1. The Client Sensor will encapsulate events received from the
+//    configured sensor in a sns_client_sensor_event message. The
+//    client_id is the same ID as provided to the Client Sensor for
+//    this connection, and the event_msg_id and event contains the
+//    information provided by the configured sensor.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std.proto";
+import "sns_std_type.proto";
+
+
+// @brief Client Sensor Message IDs
+enum sns_client_sensor_msgid
+{
+  option (nanopb_enumopt).long_names = false;
+  
+  // @brief Initial configuration message
+  // Message: sns_client_sensor_config
+  SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_CONFIG = 6;
+
+  // @brief Enable a new client or send a message from an existing
+  // client to the configured sensor
+  // Message: sns_client_sensor_enable
+  SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_ENABLE = 7;
+
+  // @brief Disable one client.
+  // Message: sns_client_sensor_disable
+  SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_DISABLE = 8;
+
+  // @brief Event forwarded to one of the clients
+  // Message: sns_client_sensor_event
+  SNS_CLIENT_SENSOR_MSGID_SNS_CLIENT_SENSOR_EVENT = 256;
+}
+
+// @brief Client Sensor Config message
+message sns_client_sensor_config
+{
+  // @brief SUID of the Sensor to connect to
+  required sns_std_suid suid = 1;
+}
+
+// @brief Client Sensor Enable message
+message sns_client_sensor_enable
+{
+  // @brief ID provided by the client
+  required uint32 client_id = 1;
+
+  // @brief Msg ID of the request for the configured sensor
+  required uint32 request_msg_id = 2;
+
+  // @brief Request message to be relayed to the configured sensor
+  optional bytes request_payload = 3;
+}
+
+// @brief Client Sensor Disable message
+message sns_client_sensor_disable
+{
+  // @brief Client ID
+  required uint32 client_id = 1;
+}
+
+// @brief Client Sensor Event message
+message sns_client_sensor_event
+{
+  // @brief Client ID
+  required uint32 client_id = 1;
+
+  // @brief Msg ID of the event
+  required uint32 event_msg_id = 2;      
+
+  // @brief Event Message received from the suid
+  optional bytes event = 3; 
+}

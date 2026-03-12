@@ -1,0 +1,85 @@
+// @file sns_client_qsocket.proto
+//
+// @brief This file defines the data structures to enable communication between
+// Qualcomm Sensing hub and remote clients using QSocket IPC.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All Rights Reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details Module for managing all qsocket based connections for the framework.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_client.proto";
+import "sns_std_type.proto";
+
+// @brief The message to query qsocket configuration.
+// The "sns_client_qsocket_config_resp" message is sent in response to
+// this message.
+message sns_client_qsocket_config_req {
+   // Empty payload.
+}
+
+// @brief The response message for the qsocket configuration.
+message sns_client_qsocket_config_resp {
+
+  // @brief Max supported size of the encoded request message in bytes
+  optional fixed32 max_req_size = 1;
+
+  // @brief Max supported size of the encoded indication message in bytes
+  optional fixed32 max_ind_size = 2;
+
+}
+
+// @brief Request Message.
+// Refer "max_req_size" for the max size of the request message
+message sns_client_qsocket_req {
+  // @brief Base message payload.
+  required sns_client_request_msg request = 1;
+
+  // @brief Request ID will be returned in sns_client_qsocket_resp::request_id.
+  required fixed32 request_id = 2;
+
+}
+
+// @brief Response Message; sent in response to every request message.
+message sns_client_qsocket_resp {
+  // @brief Client ID identifies the client connection.
+  required fixed64 client_id = 1;
+
+  // @brief Request ID as provided in sns_client_qsocket_req::request_id.
+  required fixed32 request_id = 2;
+
+  // @brief Error Response:
+  // 1. SNS_STD_ERROR_NO_ERROR
+  // 2. SNS_STD_ERROR_INVALID_TYPE  - Received an unknown request message
+  // 3. SNS_STD_ERROR_INVALID_VALUE - Request message exceeded size requirements
+  // 4. SNS_STD_ERROR_NOT_SUPPORTED - Sensor received an unsupported request;
+  // or a supported request at an unexpected time.
+  required sns_std_error error = 3;
+}
+
+// @brief Indication messages.
+// Refer "max_ind_size" for the max size of the indication message.
+message sns_client_qsocket_ind {
+  // @brief Client ID identifies the client connection.
+  required fixed64 client_id = 1;
+
+  // @brief Event message contents.
+  required sns_client_event_msg event = 2;
+}
+
+// @brief Top-level message for all QSocket clients.
+// If the Sensor Service receives a message type it does not understand, it will
+// return a sns_client_qsocket_resp with error code SNS_STD_ERROR_NOT_SUPPORTED.
+message sns_client_qsocket_msg {
+  oneof msg {
+    sns_client_qsocket_req req = 1;
+    sns_client_qsocket_resp resp = 2;
+    sns_client_qsocket_ind ind = 3;
+    sns_client_qsocket_config_req config_req = 4;
+    sns_client_qsocket_config_resp config_resp = 5;
+  }
+}

@@ -1,0 +1,50 @@
+// @file sns_shock_detect.proto
+//
+// @brief Defines standard message types for mechanical Shock Detect Sensor. 
+// All physical Sensor drivers that support Shock Detect Sensor are required to 
+// support the event messages as defined in this file.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All rights reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details 
+// Shock Detect sensor detects high acceleration motions performed on device.
+// When no shock detected, no event is reported.
+// When shock is detected, report event providing shock_duration, the
+// timestamp of the event is reflecting "start of shock".
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "shock_detect"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_shock_detect.proto"
+// 4. SNS_STD_SENSOR_ATTRID_RESOLUTIONS: Shock duration accuracy in seconds
+//
+// ## Processing Stream Requests:
+// 1. A message with ID SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is an
+//    enable request to this sensor
+// 2. A client deletes the data stream with this Sensor to disable it's
+//    original enable request
+//
+// ## Publishing Stream Events:
+// - sns_shock_detect_event is used to report the shock duration
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+import "sns_physical_sensor_test.proto";
+
+
+// @brief Message IDs for shock_detect Sensor
+enum sns_shock_detect_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_SHOCK_DETECT_MSGID_SNS_SHOCK_DETECT_EVENT  = 776;
+}
+
+// @brief Shock detect event
+message sns_shock_detect_event {
+  // @brief Shock duration in seconds
+  optional float shock_duration = 1;
+}

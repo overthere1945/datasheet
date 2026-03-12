@@ -1,0 +1,67 @@
+// @file sns_tilt_tracker.proto
+//
+// @brief Defines message types for the tilt_tracker Sensor.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All rights reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details The tilt_tracker Sensor has 2 states, init_gravity_state and 
+// update_gravity_state. The tilt_tracker Sensor looks for a change in angle 
+// of a current gravity vector from an initialization vector.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "tilt_tracker"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_tilt_tracker.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the sensor
+//
+// ## Publishing Stream Events:
+// 1. sns_tilt_tracker_gravity_init_event is associated with the 
+//    SNS_TILT_TRACKER_MSGID_SNS_TILT_TRACKER_GRAVITY_INIT_EVENT message ID. 
+//    It is generated when the algo finishes initialization successfully in 
+//    init_gravity_state.
+// 2. sns_tilt_tracker_event is associated with the 
+//    SNS_TILT_TRACKER_MSGID_SNS_TILT_TRACKER_EVENT message ID.
+//    It is generated when the current tilt angle is changed.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+
+// @brief Message IDs for tilt_tracker Sensor
+enum sns_tilt_tracker_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief 
+  // Used to indicate initialization vectors generated in algo 
+  // initialization state.
+  SNS_TILT_TRACKER_MSGID_SNS_TILT_TRACKER_GRAVITY_INIT_EVENT = 800;
+
+  // @brief The sns_tilt_tracker_event message is used to publish updated state.
+  SNS_TILT_TRACKER_MSGID_SNS_TILT_TRACKER_EVENT = 801;
+}
+
+message sns_tilt_tracker_gravity_init_event
+{
+  // @brief Indicates gravity initialization success.
+  required bool gravity_init_success = 1;
+
+  // @brief Indicates gravity initialization vector.
+  required float gravity_init_vector_x = 2;
+
+  // @brief Indicates gravity initialization vector.
+  required float gravity_init_vector_y = 3;
+
+  // @brief Indicates gravity initialization vector.
+  required float gravity_init_vector_z = 4;
+}
+
+message sns_tilt_tracker_event
+{
+  // @brief Angle of current gravity vector from initialization vector.
+  required float tilt_angle = 1;
+}

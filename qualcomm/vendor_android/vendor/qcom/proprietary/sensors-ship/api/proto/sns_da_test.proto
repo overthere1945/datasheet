@@ -1,0 +1,152 @@
+// @file sns_da_test.proto
+//
+// @brief Defines the APIs supported by the DA (driver acceptance) test sensor.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All rights reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+//
+// @details
+// The DA test sensor is used to validate the functionality of a sensor at
+// the Sensor API.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "da_test"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+// 3. SNS_STD_SENSOR_ATTRID_API attribute contains "sns_da_test.proto"
+//
+// ## Processing Stream Requests:
+// A request message with message ID of SNS_DA_TEST_MSGID_SNS_DA_TEST_REQ is
+// used to enable the sensor. The required test_args field specifies the
+// input arguments for the test sensor.
+//
+// ## Publishing Stream Events:
+// The DA test sensor sends the following types of events to the client.
+// 1. SNS_DA_TEST_MSGID_SNS_DA_TEST_EVENT: This event contains data returned
+//    from the DA test sensor, including PASS/FAIL status.
+// 2. SNS_DA_TEST_MSGID_SNS_DA_TEST_LOG: This event contains test specific
+//    information, such as the sensor under test, the number of received
+//    samples, the number of received events, and sensor sample timing metrics.
+// 3. SNS_DA_TEST_MSGID_SNS_DA_TEST_BROADCAST_EVENT: This event contains requests
+//    sent from the DA test sensor to the sensor under test, and the events
+//    received by the DA test sensor from the sensor under test.  These requests
+//    and events are broadcast from the DA test sensor to the client.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std.proto";
+
+// @brief Message IDs for DA test sensor
+enum sns_da_test_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief DA test sensor request message ID
+  SNS_DA_TEST_MSGID_SNS_DA_TEST_REQ = 512;
+
+  // @brief DA test sensor log message ID
+  SNS_DA_TEST_MSGID_SNS_DA_TEST_LOG = 768;
+
+  // @brief DA test sensor broadcast event message ID
+  SNS_DA_TEST_MSGID_SNS_DA_TEST_BROADCAST_EVENT = 967;
+
+  // @brief DA test sensor event message ID
+  SNS_DA_TEST_MSGID_SNS_DA_TEST_EVENT  = 1024;
+}
+
+// @brief DA test sensor request message
+// @details This message is used by the client to send a request to the
+// DA test sensor for configuring the sensor under test.
+message sns_da_test_req {
+  // @brief This field contains the test parameters as a string.
+  // @details The parameters are in the "-key=value " format.
+  // For example:
+  // -sensor=<sensor type>
+  // -sample_rate=<positive value in Hz>
+  // -duration=<positive value in seconds>
+  optional string test_args = 1;
+}
+
+// @brief DA test sensor event message
+// @details This message is used by the DA test sensor to send the test status
+// to the client. This includes PASS/FAIL status and any relevant explanations,
+// if applicable.
+message sns_da_test_event {
+  // @brief This field contains the status returned from the DA test sensor.
+  optional string test_event = 1;
+}
+
+// @brief DA test sensor log message
+// @details This message is used by DA test sensor to log all test related
+// statistics at the end of a test.
+message sns_da_test_log {
+  // @brief Time elapsed between the start streaming request time and the time
+  // when the first sample was received.
+  required uint64 time_to_first_event = 1;
+
+  // @brief Time elapsed between the streaming stop request time and the time
+  // when the last sample was received.
+  required sfixed32 time_to_last_event = 2;
+
+  // @brief Timestamp when the last sample was received.
+  required uint64 sample_ts = 3;
+
+  // @brief Total number of samples received.
+  required uint32 total_samples = 4;
+
+  // @brief Average time delta between samples.
+  required uint32 avg_delta = 5;
+
+  // @brief This is a deprecated field. The sample rate received in the
+  // SNS_STD_SENSOR_PHYSICAL_CONFIG_EVENT config event.
+  required sfixed32 recvd_phy_config_sample_rate = 6;
+
+  // @brief Random seed used by the DA test sensor.
+  optional uint64 random_seed_used = 7;
+
+  // @brief The number of requests sent out by the DA test sensor.
+  optional uint32 num_request_sent = 8;
+
+  // @brief Timestamp when the first sample was received.
+  optional uint64 first_sample_timestamp = 9;
+
+  // @brief The sample rate received in the SNS_STD_SENSOR_PHYSICAL_CONFIG_EVENT
+  // config event.
+  optional float phy_config_sample_rate = 10;
+}
+
+// @brief Opaque Payload
+// @details This message defines the fields for an encoded payload.
+message sns_da_test_opaque_payload
+{
+  required bytes payload = 1;
+}
+
+// @brief DA test sensor broadcast event message
+// @details This message is used by the DA test sensor to broadcast the request
+// sent to the sensor under test, or the event received from the sensor under test.
+message sns_da_test_broadcast_event {
+  // @brief SUID of sensor under test
+  required sns_std_suid suid = 1;
+
+  // @brief Message ID of the sensor request or event.
+  required fixed32 message_id = 2;
+
+  // @brief Timestamp associated with the sensor request or event.
+  required fixed64 timestamp = 3;
+
+  // @brief Data stream associated with the sensor request or event.
+  required fixed64 stream_id = 4;
+
+  // @brief The broadcast event payload.
+  option (nanopb_msgopt).no_unions = true;
+  oneof sns_da_test_broadcast_event_payload
+  {
+    // @brief Encoded event from the sensor under test, as defined in the
+    // sensor's API.
+    sns_da_test_opaque_payload opaque_payload = 100;
+
+    // @brief Request sent to the sensor under test, as defined in sns_std.proto.
+    sns_std_request request_payload = 101;
+  }
+}

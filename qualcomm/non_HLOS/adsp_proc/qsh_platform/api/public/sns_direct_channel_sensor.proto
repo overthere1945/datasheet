@@ -1,0 +1,68 @@
+// @file sns_direct_channel_sensor.proto
+//
+// Defines the API for Direct Channel Sensor.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All rights reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_type.proto";
+import "sns_std.proto";
+
+//
+// @details The direct channel sensor interface enables Algorithms or Sensors
+// to read the data from a shared buffer.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "direct_channel"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_STREAMING
+// 4. SNS_STD_SENSOR_ATTRID_API attribute contains "sns_direct_channel_sensor.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_DIRECT_CHANNEL_SENSOR_MSGID_SNS_DIRECT_CHANNEL_SENSOR_REQUEST is used to enable the sensor
+//
+// ## Publishing Stream Events:
+// - SNS_DIRECT_CHANNEL_SENSOR_MSGID_SNS_MSGID_DIRECT_CHANNEL_SENSOR_EVENT: The sns_direct_channel_event
+//    message is used to publish the data read from the shared buffer.
+// - SNS_DIRECT_CHANNEL_SENSOR_MSGID_SNS_DIRECT_CHANNEL_SENSOR_RESP: Direct channel publishes 
+//   sns_direct_channel_resp as a acknowledgement for every request.
+
+enum sns_direct_channel_sensor_msgid {
+  option (nanopb_enumopt).long_names = false;
+  
+  // @brief Direct channel request message.
+  SNS_DIRECT_CHANNEL_SENSOR_MSGID_SNS_DIRECT_CHANNEL_SENSOR_REQUEST    = 513;
+  
+  // @brief Direct channel response message
+  SNS_DIRECT_CHANNEL_SENSOR_MSGID_SNS_DIRECT_CHANNEL_SENSOR_RESP      = 1023;
+  
+  // @brief Direct channel event message.
+  SNS_DIRECT_CHANNEL_SENSOR_MSGID_SNS_DIRECT_CHANNEL_SENSOR_EVENT     = 1024;
+  
+}
+
+// @brief Direct channel request message.
+message sns_direct_channel_sensor_request{
+
+  // SUID of the requesting sensor.
+  optional sns_std_suid suid = 1;
+  
+}
+
+// @brief Direct channel response message.
+// Published for each sns_direct channel request as a response.
+message sns_direct_channel_sensor_resp
+{
+  //@brief Error code
+  optional sns_std_error error = 1;
+}
+
+// @brief Direct channel data event.
+message sns_direct_channel_sensor_event
+{
+  // @brief Opaque payload read from shared memory.
+  optional bytes payload = 1;
+}

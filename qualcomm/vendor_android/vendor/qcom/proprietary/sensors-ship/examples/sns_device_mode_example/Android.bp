@@ -1,0 +1,28 @@
+cc_binary {
+    name: "sns_device_mode_example",
+    defaults: ["sns_proto_lib_name-lite"],
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "sns_device_mode_example.cpp",
+    ],
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-missing-field-initializers",
+        "-Wno-maybe-uninitialized",
+        "-Wunused-private-field",
+    ],
+    cppflags: ["-fexceptions"],
+    header_libs: [
+         "libfastrpc_vendor_headers",
+    ],
+    shared_libs: [
+        "liblog",
+        "libsensinghubapi",
+        "libsensinghubapi-prop",
+        "libcdsprpc",
+        "libsns_device_mode_stub",
+    ],
+}

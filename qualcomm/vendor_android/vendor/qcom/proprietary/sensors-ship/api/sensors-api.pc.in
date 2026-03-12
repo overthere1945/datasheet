@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: sensors-api
+Description: sensors-api library
+Version: @LT_VERSION@
+Libs: -L${libdir} -lsensinghubapiprop -lsns_device_mode_stub -lsns_direct_channel_stub -lsns_dynamic_loader_stub -lsns_registry_skel -lsns_remote_proc_state_stub
+Cflags: -I${includedir}/api/proto/ -I${includedir}/api/rpc/

@@ -1,0 +1,37 @@
+cc_library_shared {
+    name: "libsuidlookup",
+    defaults: [
+        "sns_proto_lib_name-lite",
+    ],
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "suid_lookup.cpp",
+    ],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wno-unused-parameter",
+        "-fexceptions",
+    ],
+    cppflags: [
+        "-DSNS_CLIENT_TECH_ENABLED"
+    ],
+    sanitize:{
+        integer_overflow: true,
+    },
+    include_dirs: ["./"],
+    export_include_dirs: ["./"],
+    header_libs: [
+        "libsensinghubcommon_headers",
+    ],
+    shared_libs: [
+        "libutils",
+        "libcutils",
+        "liblog",
+        "libsnsutils",
+        "libsensinghubsession",
+        "libsensinghubapi",
+        "libsensinghubapi-prop",
+    ],
+}

@@ -1,0 +1,118 @@
+// @file sns_ccd_gesture.proto
+//
+// @brief Defines message types for dynamically generated CCD sensors.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All rights reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+
+// @details This API is used by TE & CD sensors for CCD.
+// These sensors are dynamically generated via JSON registry contents.
+//
+// The timestamp of the event indicates the timestamp of the associated TE/CD
+// block.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: as defined in registry
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+//    or ONE_SHOT, as defined in registry
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_ccd_gesture.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the sensor.
+// - SNS_CCD_GESTURE_MSGID_SNS_CCD_MODEL_CONFIG_REQ: If a gesture sensor
+//   supports named models, this request loads the model and activates the
+//   sensor similar to an ON_CHANGE_CONFIG. If this request is made to a sensor 
+//   that doesn't support named models, a model config event is sent back with
+//   a not supported error status. 
+// - SNS_CCD_GESTURE_MSGID_SNS_CCD_MODEL_LIST_REQ: If a gesture supports
+//   named models, this request will get the supported models and return
+//   them in the corresponding event. See sns_ccd_model_list_event. If
+//   this request is made to a sensor that doesn't support named models, then
+//   a std error event is sent back with the not supported error status.
+//
+// ## Publishing Stream Events:
+// - The SNS_CCD_GESTURE_MSGID_CCD_GESTURE_EVENT will be sent when the hardware
+//   indicates an event which matches the gesture configuration
+// - The SNS_CCD_GESTURE_MSGID_SNS_CCD_MODEL_CONFIG_EVENT is sent when CCD
+//   has finished handling a MODEL_CONFIG_REQ or an ON_CHANGE request.
+// - SNS_CCD_GESTURE_MSGID_SNS_CCD_MODEL_LIST_EVENT is the event containing the
+//   list of supported models. This event will be sent upon receiving a 
+//   MODEL_LIST_REQ.
+//
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+import "sns_std_type.proto";
+
+
+// @brief Message IDs for CCD gesture sensors
+enum sns_ccd_gesture_msgid {
+  option (nanopb_enumopt).long_names = false;
+  
+  // @brief Gesture event contains state0 & state1 for TE-based sensors,
+  // and cd_state for CD-based sensors.
+  SNS_CCD_GESTURE_MSGID_SNS_CCD_GESTURE_EVENT = 775;
+
+  // @brief Request to load a model
+  SNS_CCD_GESTURE_MSGID_SNS_CCD_MODEL_CONFIG_REQ = 722;
+
+  // @brief Request to get a list of supported models
+  SNS_CCD_GESTURE_MSGID_SNS_CCD_MODEL_LIST_REQ = 723;
+
+  // @brief Event indicating current loaded model and status
+  SNS_CCD_GESTURE_MSGID_SNS_CCD_MODEL_CONFIG_EVENT = 790;
+
+  // @brief Event containing list of supported models
+  SNS_CCD_GESTURE_MSGID_SNS_CCD_MODEL_LIST_EVENT = 791;
+}
+
+
+// @brief State for CD-based sensors.
+enum sns_ccd_cd_state {
+  option (nanopb_enumopt).long_names = false;
+  SNS_CCD_CD_STATE_UNKNOWN = 0;
+  SNS_CCD_CD_STATE_LOW     = 1;
+  SNS_CCD_CD_STATE_HIGH    = 2;
+}
+
+// @brief message containing TE state
+message sns_ccd_te_event {
+  //@brief Refer to CECT Tool Documentation for details.
+  required uint32  state0 = 1;
+  //@brief Refer to CECT Tool Documentation for details.
+  required uint32  state1 = 2;
+}
+
+// @brief Message containing CD state.
+message sns_ccd_cd_event {
+  required sns_ccd_cd_state cd_state = 1;
+}
+
+// @brief Message containing CCD gesture event.
+message sns_ccd_gesture_event {
+  oneof event {
+    sns_ccd_te_event te_event = 1;
+    sns_ccd_cd_event cd_event = 2;
+  }
+}
+
+// @brief Request containing model to load.
+message sns_ccd_model_config_req {
+  optional string model_name = 1;
+}
+
+// @brief Message containing supported models.
+message sns_ccd_model_list_event {
+  repeated string model_names = 1;
+}
+
+// @brief Request containing the loaded model and status.
+message sns_ccd_model_config_event {
+  optional string model_name = 1;
+  optional sns_std_error status = 2;
+}
+
+

@@ -1,0 +1,29 @@
+cc_binary {
+    name: "sns_remote_proc_state_client_example",
+    defaults: [
+    ],
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "sns_remote_proc_state_client_example.cpp",
+    ],
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-missing-field-initializers",
+        "-Wno-maybe-uninitialized",
+        "-Wno-sign-compare",
+    ],
+    header_libs: [
+        "libfastrpc_vendor_headers",
+    ],
+    shared_libs: [
+        "liblog",
+        "libc",
+        "libutils",
+        "libcutils",
+        "libcdsprpc",
+        "libsns_remote_proc_state_stub",
+    ],
+}

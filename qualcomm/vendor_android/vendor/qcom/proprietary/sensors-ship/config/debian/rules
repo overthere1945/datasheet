@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+override_dh_auto_configure:
+	dh_auto_configure --  --enable-target-qcm6490
+override_dh_auto_install:
+	dh_auto_install
+	mkdir -p $(CURDIR)/debian/tmp/etc/sensors/registry/registry

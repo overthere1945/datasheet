@@ -1,0 +1,39 @@
+// @file sns_suid_v2.proto
+//
+// @brief Defines standard message types to request and receive SUIDs from all the sensing hubs.
+//
+// @copyright 
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+// All rights reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+//
+// @details This file provides definitions for requests and parameters for
+// requesting SUID of a given data type.
+// Please refer sns_suid.proto for more details.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_type.proto";
+import "sns_suid.proto";
+
+// @brief the Message ID for SUID request
+enum sns_suid_v2_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Request all sensing hub SUIDs that support the specified data type.
+  // Message: sns_suid_v2_req
+  SNS_SUID_V2_MSGID_SNS_SUID_V2_REQ = 516;
+}
+
+
+// @brief Request a list of SUIDs that support the specified Data Type across all sensing hubs.
+//
+// @details Note: Additional requests arriving on the same connection, will not result
+// in a replaced request, but instead the new request will be appended to any
+// active registrations.
+message sns_suid_v2_req {
+
+  optional sns_suid_req suid_req = 1;
+}
+

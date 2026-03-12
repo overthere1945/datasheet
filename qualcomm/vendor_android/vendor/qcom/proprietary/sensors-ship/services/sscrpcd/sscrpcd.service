@@ -1,0 +1,18 @@
+# Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+# All rights reserved.
+# Confidential and Proprietary - Qualcomm Technologies, Inc.
+
+[Unit]
+Description=sscrpcd Service
+SourcePath=/usr/bin/sscrpcd
+
+[Service]
+User=system
+Group=system
+Restart=always
+ExecStartPre=+/bin/chown -R system.system /etc/sensors/registry
+ExecStartPre=+/bin/chown -R system.system /etc/sensors
+ExecStart=/usr/bin/sscrpcd sensorspd
+
+[Install]
+WantedBy=multi-user.target

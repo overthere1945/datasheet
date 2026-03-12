@@ -1,0 +1,26 @@
+cc_binary {
+    name: "see_workhorse",
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "see_workhorse.cpp",
+        "display_active.cpp",
+    ],
+    local_include_dirs: ["./"],
+    header_libs: [
+        "libseesalt_headers",
+        "libsensortestutils_headers",
+    ],
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-parameter",
+        "-fexceptions",
+        "-g",
+    ],
+    shared_libs: ["libSEESalt",
+                  "liblog",
+                  "libsnsutils",
+    ],
+    static_libs: ["libSensorTestUtils_static",
+    ],
+}

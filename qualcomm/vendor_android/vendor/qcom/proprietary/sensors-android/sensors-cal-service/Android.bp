@@ -1,0 +1,96 @@
+
+cc_library_shared {
+    name: "libsensorcal",
+    defaults: ["sns_proto_lib_name-lite"],
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "src/sensors_calibrate.cpp",
+        "src/qsh_calibrate.cpp",
+    ],
+    local_include_dirs: ["inc"],
+    cflags: [
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-missing-field-initializers",
+        "-Wno-maybe-uninitialized",
+    ],
+    cppflags: ["-DGOOGLE_PROTOBUF_NO_RTTI"],
+    sanitize:{
+        integer_overflow: true,
+    },
+    header_libs: [
+        "libsensorutils_headers",
+        "libsensinghubcommon_headers",
+    ],
+    shared_libs: [
+        "liblog",
+        "libutils",
+        "libcutils",
+        "libsnsutils",
+        "libsensinghubsession",
+        "libsensinghubapi",
+        "libsensinghubapi-prop",
+        "libsuidlookup",
+    ],
+}
+
+
+cc_binary {
+    name: "vendor.qti.hardware.sensorscalibrate-service",
+    relative_install_path: "hw",
+    vintf_fragments: ["src/vendor.qti.hardware.sensorscalibrate.xml"],
+    proprietary: true,
+    owner: "qti",
+    local_include_dirs: ["inc"],
+    srcs: ["src/service.cpp", "src/SensorsCalibrate.cpp"],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libdl",
+        "libhardware",
+        "libbase",
+        "libutils",
+        "libsensorcal",
+        "libbinder_ndk",
+        "vendor.qti.hardware.sensorscalibrate-V1-ndk",
+    ],
+}
+
+prebuilt_etc {
+    name: "vendor.qti.hardware.sensorscalibrate-service.rc",
+    src: "src/vendor.qti.hardware.sensorscalibrate-service.rc",
+    sub_dir: "init",
+    proprietary: true,
+}
+prebuilt_etc {
+    name: "vendor.qti.hardware.sensorscalibrate-service.disable.rc",
+    src: "src/vendor.qti.hardware.sensorscalibrate-service.disable.rc",
+    sub_dir: "init",
+    proprietary: true,
+}
+
+cc_fuzz {
+    name: "aidl_fuzzer_sensors_calibrate",
+    proprietary: true,
+    local_include_dirs: ["inc"],
+    srcs: ["fuzzer/fuzzer.cpp", "src/SensorsCalibrate.cpp"],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libdl",
+        "libhardware",
+        "libbase",
+        "libutils",
+        "libsensorcal",
+        "libbinder_ndk",
+        "vendor.qti.hardware.sensorscalibrate-V1-ndk",
+        "libbinder",
+    ],
+
+    static_libs: [
+        "libbinder_random_parcel",
+    ],
+
+}

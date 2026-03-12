@@ -1,0 +1,192 @@
+// @file sns_interrupt.proto
+//
+// @brief Defines standard message types for the Interrupt Sensor. 
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All Rights Reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details The Interrupt Sensor is a platform Sensor which is 
+// used by physical Sensor drivers that use interrupts like data-ready 
+// interrupt (DRI), In Band Interrupt (IBI), FIFO watermark interrupt, etc. 
+// These physical Sensors must use the API defined in this file to send 
+// requests to and parse events from the Interrupt Sensor.
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "interrupt"
+// 2. SNS_STD_SENSOR_ATTRID_API: "sns_interrupt.proto"
+//
+// ## Processing Stream Requests:
+// 1. SNS_INTERRUPT_MSGID_SNS_INTERRUPT_REQ to request interrupt sensor the 
+// sensor.
+// 2. SNS_INTERRUPT_MSGID_SNS_INTERRUPT_IS_CLEARED: Notification message to the 
+//    interrupt Sensor that a level triggered interrupt has been serviced and 
+//    cleared.
+//
+//    In case of level triggered interrupts, when the interrupt fires, the 
+//    interrupt sensor disables the interrupt until it is serviced and cleared 
+//    at its source. This message is used to notify the interrupt sensor that 
+//    the interrupt has been serviced and cleared so that it can be re-enabled.
+//    This message is not applicable to edge triggered interrupts. This message
+//    does not have any payload.
+// 
+// ## Publishing Stream Events:
+// 1. SNS_INTERRUPT_MSGID_SNS_INTERRUPT_EVENT: This message is generated each 
+//    time a registered interrupt fires. This message ID corresponds to
+//    the message sns_interrupt_event.
+// 2. SNS_INTERRUPT_MSGID_SNS_INTERRUPT_REG_EVENT: This message is generated 
+//    when an interrupt has been successfully registered. Sensors should not
+//    turn on the hardware interrupts until this event has been received from
+//    the interrupt sensor. This event has no body and the event length is 0.
+
+syntax = "proto2";
+import "nanopb.proto";
+
+// @brief Interrupt message ids.
+enum sns_interrupt_msgid
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief This message is used to register for notifications for a physical 
+  // interrupt pin with the interrupt sensor.
+  SNS_INTERRUPT_MSGID_SNS_INTERRUPT_REQ = 512;
+
+  // @brief Notification message to the interrupt Sensor that
+  // a level triggered interrupt has been serviced and cleared.
+  SNS_INTERRUPT_MSGID_SNS_INTERRUPT_IS_CLEARED = 513;
+
+  // @brief This message is used to register for notifications for an In Band
+  // Interrupt (IBI).
+  SNS_INTERRUPT_MSGID_SNS_IBI_REQ = 514;
+
+  // @brief Data event from interrupt Sensor.
+  SNS_INTERRUPT_MSGID_SNS_INTERRUPT_EVENT  = 1024;
+
+  // @brief Interrupt sensor event marking it as registered
+  SNS_INTERRUPT_MSGID_SNS_INTERRUPT_REG_EVENT = 1025;
+}
+
+// @brief Types of interrupt triggers.
+enum sns_interrupt_trigger_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Trigger type rising edge.
+  SNS_INTERRUPT_TRIGGER_TYPE_RISING = 0;      
+  // @brief Trigger type falling edge.
+  SNS_INTERRUPT_TRIGGER_TYPE_FALLING = 1;     
+  // @brief Trigger type rising and falling edge.
+  SNS_INTERRUPT_TRIGGER_TYPE_DUAL_EDGE = 2;   
+  // @brief Trigger type high level.
+  SNS_INTERRUPT_TRIGGER_TYPE_HIGH = 3;        
+  // @brief Trigger type low level.
+  SNS_INTERRUPT_TRIGGER_TYPE_LOW = 4;         
+}
+
+// @brief Types of interrupt pin drive strength.
+enum sns_interrupt_drive_strength
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Specify a 2 mA drive.
+  SNS_INTERRUPT_DRIVE_STRENGTH_2_MILLI_AMP = 0;  
+  // @brief Specify a 4 mA drive.
+  SNS_INTERRUPT_DRIVE_STRENGTH_4_MILLI_AMP = 1;  
+  // @brief Specify a 6 mA drive.
+  SNS_INTERRUPT_DRIVE_STRENGTH_6_MILLI_AMP = 2; 
+  // @brief Specify an 8 mA drive.
+  SNS_INTERRUPT_DRIVE_STRENGTH_8_MILLI_AMP = 3;  
+  // @brief Specify a 10 mA drive.
+  SNS_INTERRUPT_DRIVE_STRENGTH_10_MILLI_AMP = 4; 
+  // @brief Specify a 12 mA drive.
+  SNS_INTERRUPT_DRIVE_STRENGTH_12_MILLI_AMP = 5; 
+  // @brief Specify a 14 mA drive.
+  SNS_INTERRUPT_DRIVE_STRENGTH_14_MILLI_AMP = 6; 
+  // @brief Specify a 16 mA drive.
+  SNS_INTERRUPT_DRIVE_STRENGTH_16_MILLI_AMP = 7; 
+}
+
+// @brief Types of interrupt pin pull.
+enum sns_interrupt_pull_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // Do not specify a pull.
+  SNS_INTERRUPT_PULL_TYPE_NO_PULL = 0;     
+  // Pull the GPIO down.
+  SNS_INTERRUPT_PULL_TYPE_PULL_DOWN = 1;   
+  // Designate as a Keeper.
+  SNS_INTERRUPT_PULL_TYPE_KEEPER = 2; 
+  // Pull the pin up.
+  SNS_INTERRUPT_PULL_TYPE_PULL_UP = 3;     
+}
+
+enum sns_intr_qup_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_INTR_SSC_QUP = 0;
+  SNS_INTR_TOP_QUP = 1;
+}
+
+// @brief Client request message for Interrupt Sensor.
+message sns_interrupt_req
+{
+  // @brief Interrupt pin number.
+  required uint32 interrupt_num = 1;
+
+  // @brief Interrupt trigger type.
+  required sns_interrupt_trigger_type interrupt_trigger_type = 2;
+
+  // @brief Interrupt pin drive strength configuration.
+  required sns_interrupt_drive_strength interrupt_drive_strength = 3;
+
+  // @brief Interrupt pin pull configuration.
+  required sns_interrupt_pull_type interrupt_pull_type = 4;
+
+  // @brief Interrupt pin type. True if this is a chip
+  // TLMM GPIO. False if this is an SSC TLMM GPIO.
+  required bool is_chip_pin = 5;
+}
+
+// @brief Client request message for Interrupt Sensor.
+message sns_ibi_req
+{
+  // @brief Slave address for I3C.
+  required uint32 dynamic_slave_addr = 1;
+
+  // @brief Platform bus instance number (BLSP number).
+  required uint32 bus_instance = 2;
+
+  // @brief Number of optional + mandatory bytes supported by the sensor 
+  // hardware.
+  required fixed32 ibi_data_bytes = 3;
+
+  // @brief QUP instance.
+  optional fixed32 qup_instance = 4;
+  
+  // @brief QUP_type whether SSC or top level.
+  optional sns_intr_qup_type qup_type = 5;
+
+  // @brief Manufacturer ID of I3C slave.
+  optional uint32 manufacturer_id = 6;
+
+  // @brief Provisional ID of I3C slave.
+  optional uint32 provisional_id = 7;
+
+}
+
+// @brief Event generated by the Interrupt Sensor.
+message sns_interrupt_event
+{
+  // @brief Interrupt pin number or dynamic slave address.
+  required fixed32 interrupt_num = 1;
+
+  // @brief Timestamp when trigger event on the interrupt
+  // was detected.
+  required fixed64 timestamp = 2;
+
+  // @brief If an IBI event, the data associated with the event.
+  optional bytes   ibi_data = 3 [(nanopb).max_size = 32];
+}

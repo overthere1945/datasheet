@@ -1,0 +1,23 @@
+Source:qcom-sensors-registry
+Section: libs
+Priority: optional
+Maintainer: Bhanu Vivek Matsa <bmasta@qti.qualcomm.com>
+Build-Depends: debhelper-compat (= 13), pkgconf
+Standards-Version: 4.6.2
+Homepage: http://support.cdmatech.com
+
+Package: qcom-sensors-registry
+Architecture: arm64
+Replaces: libsensors-ship-qti1
+Breaks: libsensors-ship-qti1
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Qualcomm Sensors-registry APIs Library
+
+Package: qcom-sensors-registry-dev
+Architecture: arm64
+Replaces: libsensors-ship-qti-dev
+Breaks: libsensors-ship-qti-dev
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ qcom-sensors-registry (= ${binary:Version})
+Description: Qualcomm Sensors-registry APIs Library

@@ -1,0 +1,81 @@
+// @file sns_remote_proc_state.proto
+//
+// @brief Defines standard message types for the Remote Processor State sensor
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All Rights Reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+//
+// @details Notify changes in remote processor states.
+// 
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "remote_proc_state" 
+// 2. SNS_STD_SENSOR_ATTRID_API: "sns_remote_proc_state.proto"
+// 3. SNS_STD_SENSOR_ATTRID_STREAM: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+//
+// ## Processing Stream Requests:
+// 1.  SNS_REMOTE_PROC_STATE_MSGID_SNS_REMOTE_PROC_STATE_CONFIG: Config request
+// to receive remote processor state updates.
+//
+// ## Publishing Stream Events:
+// SNS_REMOTE_PROC_STATE_MSGID_SNS_REMOTE_PROC_STATE_EVENT: 
+// 1. This event is generated when the remote_proc_state service
+//    sends out the remote processor state change notification.
+// 2. This event is generated when the client processor sends out 
+//    time offset update notification to remote proc sensor.
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_type.proto";
+
+enum sns_remote_proc_state_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Uses message: sns_remote_proc_state_config
+  // Config request to receive remote processor state updates
+  SNS_REMOTE_PROC_STATE_MSGID_SNS_REMOTE_PROC_STATE_CONFIG = 512;
+  
+
+  // @brief Uses message: sns_remote_proc_state_event  
+  // 1. This event is generated when the remote_proc_state service
+  //    sends out the remote processor state change notification.
+  // 2. This event is generated when the client processor sends out 
+  //    time offset update notification to remote proc sensor.
+  SNS_REMOTE_PROC_STATE_MSGID_SNS_REMOTE_PROC_STATE_EVENT = 1024;
+}
+
+// @brief Remote processor state config request.
+message sns_remote_proc_state_config
+{
+  // @brief Requested processor type.
+  required sns_std_client_processor proc_type = 1;
+}
+
+// @brief Supported processor state event types.
+enum sns_remote_proc_state_event_type
+{
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief Processor is suspended.
+  SNS_REMOTE_PROC_STATE_SUSPEND = 0;
+  
+  // @brief Processor is awake.
+  SNS_REMOTE_PROC_STATE_AWAKE = 1;
+}
+
+// @brief Remote processor state event.
+message sns_remote_proc_state_event
+{
+  // @brief Processor type whose state is updated.
+  required sns_std_client_processor proc_type = 1;
+
+  // @brief Event type with state of the processor.
+  required sns_remote_proc_state_event_type event_type = 2 [default = SNS_REMOTE_PROC_STATE_AWAKE];
+
+  // @brief Time offset between client time domain & QSH time domain in nano 
+  // seconds. 
+  // This field is updated when the client processor sends out time 
+  // offset update notification to remote proc sensor.
+  optional sfixed64 time_offset = 3;
+}

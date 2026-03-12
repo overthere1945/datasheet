@@ -1,0 +1,46 @@
+cc_defaults {
+    name: "libSensorTest",
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "util_wakelock.cpp",
+    ],
+    local_include_dirs: ["./"],
+    cflags: [
+        "-Wno-unused-variable",
+        "-Wno-unused-parameter",
+        "-fexceptions",
+        "-g",
+    ],
+    cppflags: [],
+    sanitize:{
+        integer_overflow: true,
+    },
+    header_libs: [
+        "libcutils_headers",
+        "libutils_headers",
+        "libsensorutils_headers",
+    ],
+    shared_libs: [
+        "liblog",
+        "libsnsutils",
+        "libcutils",
+        "libutils",
+    ],
+    static_libs: [
+    ],
+}
+
+cc_library_static {
+    name: "libSensorTestUtils_static",
+    defaults: [
+        "libSensorTest",
+    ],
+}
+
+cc_library_headers {
+    name: "libsensortestutils_headers",
+    export_include_dirs: ["./"],
+    owner: "qti",
+    proprietary: true,
+}

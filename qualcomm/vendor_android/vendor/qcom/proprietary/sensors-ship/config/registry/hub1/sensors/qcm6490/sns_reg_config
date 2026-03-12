@@ -1,0 +1,5 @@
+version=1
+file=input=json.lst
+file=output=/etc/sensors/registry/registry
+property=persist.vendor.sensors.enable.property=/etc/sensors/registry/file1
+property=persist.vendor.sensors.enable.property1=/etc/sensors/registry/file2

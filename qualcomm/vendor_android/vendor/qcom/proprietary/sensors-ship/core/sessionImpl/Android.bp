@@ -1,0 +1,45 @@
+cc_library_shared {
+    name: "libQshSession",
+    defaults: [
+        "sns_proto_lib_name-lite",
+        "sns_wearable_target",
+    ],
+    rtti: false,
+    srcs: [
+        "src/qmiSession.cpp",
+        "src/glinkSession.cpp",
+        "src/sessionImpl.cpp",
+    ],
+    local_include_dirs: [
+        "inc",
+    ],
+    include_dirs:["vendor/qcom/proprietary/sensors-ship/core/qshQmiIDL"],
+    cflags: [
+        "-Werror",
+        "-Wall",
+        "-Wno-unused-parameter",
+        "-fexceptions",
+    ],
+    header_libs: [
+        "libsensinghubcommon_headers",
+        "libsensinghubsession_headers",
+    ],
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libutils",
+        "libqmi_common_so",
+        "libqmi_cci",
+        "libqmi_encdec",
+        "libsnsutils",
+        "libQshQmiIDL",
+        "libsensinghubapi",
+        "libsensinghubapi-prop",
+        "libsuidlookup",
+    ],
+    sanitize:{
+        integer_overflow: true,
+    },
+    owner: "qti",
+    proprietary: true,
+}

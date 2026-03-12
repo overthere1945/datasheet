@@ -1,0 +1,26 @@
+Source: qcom-sensors-test-core
+Section: libs
+Priority: optional
+Maintainer: Bhanu Vivek Matsa <bmasta@qti.qualcomm.com>
+Build-Depends: debhelper-compat (= 13), pkgconf, libglib2.0-dev, protobuf-compiler, libprotobuf-dev, libprotoc-dev,
+ qcom-sensing-hub-dev, qcom-property-vault-dev, qcom-syslog-plumber-dev, qcom-dspservices-headers-dev,
+ qcom-sensors-utils-dev, qcom-sensors-core-dev, qcom-sensors-api-dev, qcom-libdiag-dev, qcom-fastrpc-dev
+Standards-Version: 4.6.2
+Homepage: http://support.cdmatech.com
+
+Package: qcom-sensors-test-core
+Architecture: arm64
+Replaces: libsensors-ship-qti1
+Breaks: libsensors-ship-qti1
+Depends: ${shlibs:Depends}, ${misc:Depends}, qcom-sensing-hub ,qcom-sensors-utils , qcom-sensors-api, qcom-sensors-core
+Description: Qualcomm Sensors-test-core APIs Library
+
+Package: qcom-sensors-test-core-dev
+Architecture: arm64
+Replaces: libsensors-ship-qti-dev
+Breaks: libsensors-ship-qti-dev
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ qcom-sensors-api-dev , qcom-sensing-hub-dev, qcom-sensors-utils-dev, qcom-sensors-core-dev,
+ qcom-sensors-test-core (= ${binary:Version})
+Description: Qualcomm Sensors-test-core APIs Library

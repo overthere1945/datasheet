@@ -1,0 +1,53 @@
+// @file sns_mcd_tracker.proto
+//
+// @brief 
+// Defines message types for the Motion Change Detect Sensor for tracker target.
+//
+// @copyright
+// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.\n
+// All rights reserved.\n
+// Confidential and Proprietary - Qualcomm Technologies, Inc.\n
+// 
+// @details 
+// Motion Change Detect Sensor provide "stationary" and "significant motion" 
+// states
+//
+// ## Attribute Requirements:
+// 1. SNS_STD_SENSOR_ATTRID_TYPE: "mcd_tracker"
+// 2. SNS_STD_SENSOR_ATTRID_STREAM_TYPE: SNS_STD_SENSOR_STREAM_TYPE_ON_CHANGE
+// 3. SNS_STD_SENSOR_ATTRID_API: "sns_mcd_tracker.proto"
+//
+// ## Processing Stream Requests:
+// - SNS_STD_SENSOR_MSGID_SNS_STD_ON_CHANGE_CONFIG is used to enable the sensor
+//
+// ## Publishing Stream Events:
+// - The sns_mcd_tracker_event message is used to publish updated state
+
+syntax = "proto2";
+import "nanopb.proto";
+import "sns_std_sensor.proto";
+
+// @brief Message IDs for mcd_tracker Sensor
+enum sns_mcd_tracker_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  // @brief The sns_mcd_tracker_event message is used to publish updated state.
+  SNS_MCD_TRACKER_MSGID_SNS_MCD_TRACKER_EVENT = 815;
+}
+
+enum sns_mcd_tracker_state
+{
+  option (nanopb_enumopt).long_names = false;
+
+  SNS_MCD_TRACKER_UNKNOWN = 0;
+  SNS_MCD_TRACKER_STATIONARY = 1;
+  SNS_MCD_TRACKER_SIG_MOTION = 2;
+}
+
+message sns_mcd_tracker_event
+{
+  // @brief Initial prev_state is stationary
+  required sns_mcd_tracker_state prev_state = 1;
+  required sns_mcd_tracker_state curr_state = 2;
+  required fixed32 next_run_duration = 3;
+}

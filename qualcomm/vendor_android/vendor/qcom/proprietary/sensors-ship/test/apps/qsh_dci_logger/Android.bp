@@ -1,0 +1,40 @@
+/*
+ * Copyright (c) 2024 Qualcomm Technologies, Inc.
+ * All Rights Reserved.
+ * Confidential and Proprietary - Qualcomm Technologies, Inc.
+ *
+ * Android.bp - Build configuration file for qsh_dci_logger
+ */
+
+cc_binary {
+    name: "qsh_dci_logger",
+    owner: "qti",
+    proprietary: true,
+    srcs: [
+        "./src/qsh_dci_logger.cpp",
+        "./src/main.cpp",
+    ],
+    local_include_dirs: [
+        "./inc"
+    ],
+    header_libs: [
+        "vendor_common_inc",
+    ],
+    cflags: [
+        "-fexceptions",
+        "-g",
+    ],
+    shared_libs: [
+        "libdiag",
+        "liblog",
+    ],
+}
+
+prebuilt_etc {
+    name: "qsh_F3_logs.cfg",
+    src: "diag_cfg/qsh_F3_logs.cfg",
+    sub_dir: "sensors/diag_cfg",
+    vendor: true,
+    proprietary: true,
+    owner: "qti",
+}
