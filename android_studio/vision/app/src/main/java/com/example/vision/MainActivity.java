@@ -1,9 +1,9 @@
 /*
- * 파일 목적: Sensor Interrupt 방식을 사용하여 ADSP로부터 1FPS 저빈도 이미지를 수신하는 메인 화면
- * 파일 기능:
- * 1. 시스템에 등록된 Wake-up 센서(CT7117X)를 찾아 리스너를 등록함
- * 2. 수면(Sleep) 상태에서 인터럽트 수신 시, CPU가 다시 잠들지 않도록 WakeLock을 획득함
- * 3. 인터럽트 수신 즉시 JNI(readFromUio)를 1회 호출하여 공유 메모리에서 이미지를 출력
+ * 목적: ADSP의 인터럽트 대안으로, Native C++ 백그라운드 스레드를 실행시켜 이미지를 가져오는 액티비티
+ * 기능:
+ * 1. 앱 실행 시 JNI로 startNativeThread()를 호출하여 C++ 백그라운드 감시 루프 시작
+ * 2. C++ 스레드에서 직접 "바이트 배열(byte[])"을 콜백으로 넘겨줌
+ * 3. 디스크 읽기를 생략하고 곧바로 바이트 배열을 비트맵으로 디코딩하여 화면에 즉시 갱신함
  */
 
 package com.example.vision;
@@ -26,32 +26,20 @@ import android.widget.ImageView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.content.pm.PackageManager;
+
 import com.example.vision.databinding.ActivityMainBinding;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import java.util.List;
-import android.os.PowerManager;
-
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private static final String TAG = "VISION_TEST";
 
+    // Used to load the 'vision' library on application startup.
     static {
         System.loadLibrary("vision");
     }
 
     private ActivityMainBinding binding;
-    private SensorManager sensorManager;
-    private Sensor adspSensor;
-    private boolean isSensorRegistered = false;
-
-    // 라인 설명: Sleep 상태에서 인터럽트를 받았을 때 이미지 디코딩이 끝날 때까지 CPU를 깨워두는 WakeLock 객체
-    private PowerManager.WakeLock wakeLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,67 +50,54 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         checkStoragePermission();
 
+        // Example of a call to a native method
         TextView tv = binding.sampleText;
-        tv.setText("Sensor Interrupt Ready. Waiting for ADSP...");
 
-        imageView = findViewById(R.id.myimageview);
+        tv.setText("start");
+
+        imageView = findViewById(R.id.myimageview); // layout에 정의된 ID
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        // WakeLock 초기화
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        if (pm != null) {
-            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VisionApp::SensorWakeLock");
-        }
-
-        // 수동 강제 읽기 트리거 (디버깅용 유지)
-        binding.getRoot().setOnClickListener(new android.view.View.OnClickListener() {
+         /* // 기존 1초마다 도는 루프 로직은 제거 (불필요한 CPU 소모 방지)
+		runnable = new Runnable() {
             @Override
-            public void onClick(android.view.View v) {
-                Log.d(TAG, "[Manual Trigger] Screen Tapped! Forcing JNI read...");
-                byte[] jpegData = readFromUio(false);
-                if (jpegData != null && jpegData.length > 0) {
-                    final Bitmap bitmap = BitmapFactory.decodeByteArray(jpegData, 0, jpegData.length);
-                    if (bitmap != null) {
-                        imageView.setImageBitmap(bitmap);
-                        Log.d(TAG, "[Manual Trigger] SUCCESS! Image is in memory.");
-                    }
+            public void run() {
+                boolean bReceivedNewImage = false;
+                try {
+                    // JNI 함수 호출 (이전 단계에서 만든 데이터 읽기 함수)
+                    bReceivedNewImage = readFromUio(false);
+                } catch (Exception e) {
+                    Log.e(TAG, "JNI Call Failed: " + e.getMessage());
                 }
-            }
-        });
 
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if (sensorManager != null) {
-            List<Sensor> sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL);
-            for (Sensor sensor : sensorList) {
-                if (sensor.getName() != null && sensor.getName().contains("CT7117X")) {
-                    adspSensor = sensor;
-                    break;
+                if (bReceivedNewImage)
+                {
+                    updateImage();
+                    Log.d(TAG, "Received New VGA Image");
                 }
-            }
-
-            if (adspSensor != null) {
-                Log.d(TAG, "Successfully found Sensor: " + adspSensor.getName());
-
-                if (!isSensorRegistered) {
-                    // change(fix)-hyungchul-20260312-1700 시작
-                    // 설명: 1FPS 스트리밍의 안정성을 확보하고 ADSP 내부의 5Hz 속도 상한선 필터링(거부)을 완벽히 피하기 위해,
-                    // 1,000,000 마이크로초(1Hz)로 속도를 고정 등록합니다.
-                    isSensorRegistered = sensorManager.registerListener(this, adspSensor, 1000000, 0);
-                    Log.d(TAG, "Sensor Listener Registration Status: " + isSensorRegistered);
-                    // change(fix)-hyungchul-20260312-1700 끝
+                else
+                {
+                    Log.d(TAG, "No Update VGA Image");
                 }
-            } else {
-                Log.e(TAG, "Sensor not found in HAL.");
+                // 1000ms(1초) 후에 자기 자신을 다시 호출
+                handler.postDelayed(this, 1000);
             }
-        }
+        };
+		*/
+        // change(add)-hyungchul-20260306-1400 끝
     }
-
+    
     private void checkStoragePermission() {
+        // Android 11 (API 30) 이상은 READ_EXTERNAL_STORAGE가 필요합니다.
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.MANAGE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
+
+            // 권한 팝업 띄우기
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.MANAGE_EXTERNAL_STORAGE}, 100);
         }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
@@ -130,50 +105,65 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         }
     }
-
+    
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (sensorManager != null && isSensorRegistered) {
-            sensorManager.unregisterListener(this);
-            isSensorRegistered = false;
-            Log.d(TAG, "Sensor Listener Unregistered on App Destroy.");
-        }
-        if (wakeLock != null && wakeLock.isHeld()) {
-            wakeLock.release();
-        }
+    protected void onResume() {
+        super.onResume();
+        // 화면이 보일 때 호출 시작
+        // handler.post(runnable); // 기존 코드 비활성화
+        
+        // change(add)-hyungchul-20260306-1400 시작
+        // 설명: 화면이 켜지면 센서(인터럽트) 이벤트를 수신하도록 리스너를 등록합니다.
+        Log.d(TAG, "Starting Native Polling Thread...");
+        startNativeThread(true); // true = 유사도 필터링 켜기
+        // change(add)-hyungchul-20260306-1400 끝
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
-        Log.d(TAG, "Hardware Interrupt Received! Dummy Value: " + event.values[0]);
+    protected void onPause() {
+        super.onPause();
+        // 화면이 가려지면 배터리 절약을 위해 중지
+        // handler.removeCallbacks(runnable); // 기존 코드 비활성화
 
-        // Sleep 상태에서 이벤트 수신 시, JNI 작업이 끝날 때까지 1초간 CPU가 잠들지 않도록 강제 유지
-        if (wakeLock != null && !wakeLock.isHeld()) {
-            wakeLock.acquire(1000);
-        }
+        // change(add)-hyungchul-20260306-1400 시작
+        Log.d(TAG, "Stopping Native Polling Thread...");
+        stopNativeThread();
+    }
 
-        byte[] jpegData = readFromUio(true);
-
-        if (jpegData != null && jpegData.length > 0) {
-            final Bitmap bitmap = BitmapFactory.decodeByteArray(jpegData, 0, jpegData.length);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (bitmap != null) {
-                        imageView.setImageBitmap(bitmap);
-                        Log.d(TAG, "Image successfully updated via Interrupt!");
-                    } else {
-                        Log.e(TAG, "Bitmap decoding FAILED!");
-                    }
+    // change(add)-hyungchul-20260306-1720 시작
+    // 설명: C++ 스레드로부터 파일시스템을 거치지 않고 메모리 상의 원본 JPEG 데이터를 직접 수신합니다.
+    // 레이스 컨디션에 의한 디코딩 실패 확률이 0%가 되며, UI 반응 속도가 비약적으로 상승합니다.
+    public void onImageReceived(byte[] jpegData) {
+        Log.d(TAG, "Callback Received with " + jpegData.length + " bytes! Decoding image...");
+        
+        // C++ 백그라운드 스레드에서 곧바로 비트맵으로 디코딩 (메인 스레드의 부하를 줄이기 위함)
+        final Bitmap bitmap = BitmapFactory.decodeByteArray(jpegData, 0, jpegData.length);
+        
+        // UI 변경은 반드시 메인(UI) 스레드에서 수행해야 하므로 runOnUiThread를 사용합니다.
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (bitmap != null) {
+                    imageView.setImageBitmap(bitmap);
+                    Log.d(TAG, "Image successfully updated on screen!");
+                } else {
+                    Log.e(TAG, "Bitmap decoding FAILED! Invalid JPEG data.");
                 }
-            });
-        }
+            }
+        });
     }
+    // change(add)-hyungchul-20260306-1720 끝
+    /**
+     * JNI 선언부 변경: 단발성 호출이 아닌 스레드 관리 함수로 변경
+     */
+    public native void startNativeThread(boolean filtered);
+    public native void stopNativeThread();
+    // change(add)-hyungchul-20260306-1610 끝
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-    }
 
-    public native byte[] readFromUio(boolean filtered);
+    /**
+     * A native method that is implemented by the 'vision' native library,
+     * which is packaged with this application.
+     */
+//    public native boolean readFromUio(boolean fillted);
 }
